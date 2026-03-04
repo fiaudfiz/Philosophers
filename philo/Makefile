@@ -19,7 +19,7 @@ SRCS_DIR = srcs/
 OBJS_DIR = objs/
 HEADER_DIR = includes/
 
-SRCS_PHILO = main.c 
+SRCS_PHILO = main.c prog_usage.c
 
 ALL_SRCS = $(addprefix $(SRCS_DIR), $(SRCS_PHILO))
 
@@ -55,7 +55,7 @@ $(OBJS_DIR)%.o: $(SRCS_DIR)%.c $(HEADER)
 	@mkdir -p $(dir $@)
 	@$(eval CURRENT_FILE=$(shell echo $$(($(CURRENT_FILE) + 1))))
 	@$(eval PERCENT=$(shell echo $$(($(CURRENT_FILE) * 100 / $(TOTAL_FILES)))))
-	@printf "\r$(CYAN)🛠️  Compiling Fract-ol... [%-20s] %d%%" \
+	@printf "\r$(CYAN)🛠️  Compiling Philosophers... [%-20s] %d%%" \
 		"$(shell printf '#%.0s' $$(seq 1 $$(($(PERCENT) / 5))))" $(PERCENT)
 	@$(CC) $(CFLAGS) -c $< -o $@ 2> .temp_err || \
 		(printf "\n$(PURPLE)❌ Erreur dans $< :$(RESET)\n" && cat .temp_err >> $(ERR_LOG) && cat .temp_err && rm -f .temp_err)
