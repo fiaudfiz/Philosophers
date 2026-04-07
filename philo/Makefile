@@ -1,3 +1,15 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: miouali <miouali@student.42.fr>            +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2026/04/07 11:04:43 by miouali           #+#    #+#              #
+#    Updated: 2026/04/07 11:08:19 by miouali          ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 NAME = philo
 
 DEF_COLOR = \033[0;39m
@@ -41,7 +53,7 @@ RM = rm -rf
 all: header start_timer $(NAME) end_timer
 
 header:
-	@echo "$(YELLOW) Démarrage de la compilation de Philosophers...$(RESET)"
+	@printf "$(YELLOW) Démarrage de la compilation de Philosophers...$(RESET)\n"
 
 start_timer:
 	$(eval START_TIME := $(shell date +%s))
@@ -52,7 +64,7 @@ debug debug_asan debug_tsan: \
 debug: DFLAGS = $(DFLAGS_COMMON)
 debug: header start_timer $(OBJS) end_timer
 	@$(CC) $(OBJS) $(DFLAGS) -o $(NAME)
-	@echo "$(GREEN) Philosophers debug ready !$(DEF_COLOR)"
+	@printf "$(GREEN) Philosophers debug ready !$(DEF_COLOR)"
 
 debug_asan: DFLAGS = $(DFLAGS_ASAN)
 debug_asan: header start_timer $(OBJS) end_timer
@@ -66,7 +78,7 @@ debug_tsan: header start_timer $(OBJS) end_timer
 
 $(NAME): $(OBJS)
 	@$(CC) $(OBJS) -o $(NAME)
-	@echo "\n\n$(GREEN) Philo is ready to be used !$(DEF_COLOR)"
+	@printf "\n\n$(GREEN) Philo is ready to be used !$(DEF_COLOR)"
 
 
 # Variables pour la barre
@@ -75,9 +87,9 @@ CURRENT_FILE := 0
 
 $(OBJS_DIR)%.o: $(SRCS_DIR)%.c $(HEADER)
 	@mkdir -p $(dir $@)
-	@$(eval CURRENT_FILE=$(shell echo $$(($(CURRENT_FILE) + 1))))
-	@$(eval PERCENT=$(shell echo $$(($(CURRENT_FILE) * 100 / $(TOTAL_FILES)))))
-	@printf "\r$(CYAN)🛠️  Compiling Philosophers... [%-20s] %d%%" \
+	@$(eval CURRENT_FILE=$(shell printf $$(($(CURRENT_FILE) + 1))))
+	@$(eval PERCENT=$(shell printf $$(($(CURRENT_FILE) * 100 / $(TOTAL_FILES)))))
+	@printf "\r$(CYAN)🛠️  Compiling Philosophers... [%-20s] %d%%\n" \
 		"$(shell printf '#%.0s' $$(seq 1 $$(($(PERCENT) / 5))))" $(PERCENT)
 	@$(CC) $(CFLAGS) -c $< -o $@ 2> .temp_err || \
 		(printf "\n$(PURPLE)❌ Erreur dans $< :$(RESET)\n" && cat .temp_err >> $(ERR_LOG) && cat .temp_err && rm -f .temp_err)
@@ -85,26 +97,26 @@ $(OBJS_DIR)%.o: $(SRCS_DIR)%.c $(HEADER)
 
 end_timer:
 	@$(eval END_TIME := $(shell date +%s))
-	@$(eval DURATION := $(shell echo $$(($(END_TIME) - $(START_TIME)))))
-	@$(eval ERRORS := $(shell if [ -f $(ERR_LOG) ]; then grep -c "error:" $(ERR_LOG); else echo 0; fi))
-	@echo "\n--------------------------------------------------"
+	@$(eval DURATION := $(shell printf $$(($(END_TIME) - $(START_TIME)))))
+	@$(eval ERRORS := $(shell if [ -f $(ERR_LOG) ]; then grep -c "error:" $(ERR_LOG); else printf 0; fi))
+	@printf "\n%s\n" "--------------------------------------------------"
 	@if [ $(ERRORS) -eq 0 ]; then \
-		echo "$(GREEN)✅ COMPILATION TERMINÉE !$(RESET)"; \
+		printf "$(GREEN)✅ COMPILATION TERMINÉE !$(RESET)"; \
 	else \
-		echo "$(RED)❌ COMPILATION TERMINÉE AVEC DES ERREURS$(RESET)"; \
+		printf "$(RED)❌ COMPILATION TERMINÉE AVEC DES ERREURS$(RESET)"; \
 	fi
-	@echo "Temps écoulé : $(DURATION) secondes"
-	@echo "  Nombre d'erreurs : $(ERRORS)"
-	@echo "--------------------------------------------------"
+	@printf "Temps écoulé : $(DURATION) secondes"
+	@printf "  Nombre d'erreurs : $(ERRORS)"
+	@printf "%s\n" "--------------------------------------------------"
 	@rm -f $(ERR_LOG)
 
 clean:
 	$(RM) $(OBJS_DIR)	
-	@echo "$(PURPLE) Objects cleaned!$(DEF_COLOR)"
+	@printf "$(PURPLE) Objects cleaned!$(DEF_COLOR)\n"
 
 fclean: clean
 		$(RM) $(NAME)
-		@echo "$(PURPLE) $(NAME) deleted!$(DEF_COLOR)"
+		@printf "$(PURPLE) $(NAME) deleted!$(DEF_COLOR)\n"
 
 re: fclean all
 
