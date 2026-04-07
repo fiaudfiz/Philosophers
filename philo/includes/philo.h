@@ -3,6 +3,8 @@
 
 # include <pthread.h>
 # include <stdio.h>
+# include <unistd.h>
+# include <stdlib.h>
 
 typedef struct s_tab_of_thread
 {

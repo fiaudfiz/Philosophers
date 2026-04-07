@@ -11,8 +11,17 @@ RESET   = \033[0m
 ERR_LOG = .errors.log
 
 CC = cc
-CFLAGS =  -O3 -Wall -Wextra -Werror -I includes
-DFLAGS = -fsanitize=address -fsanitize=undefined -g -Wshadow -Wunused-function
+CFLAGS =  -O3 -Wall -Wextra -Werror -I includes -std=c99
+DFLAGS_COMMON = -g -Wshadow -fno-omit-frame-pointer
+
+#ASan + UBSan
+DFLAGS_ASAN = $(DFLAGS_COMMON) \
+			-fsanitize=adress,undefined \
+			-fno-sanitize-recover=all
+
+#TSan
+DFLAGS_TSAN = $(DFLAGS_COMMON) \
+			-fsanitize=thread
 
 #Dossiers
 SRCS_DIR = srcs/
@@ -37,10 +46,23 @@ header:
 start_timer:
 	$(eval START_TIME := $(shell date +%s))
 
-debug: $(MLX_LIB) $(LIBFT_LIB) header start_timer $(OBJS) end_timer
-	@$(CC) $(OBJS) $(LDFLAGS) $(DFLAGS) -o $(NAME)
+debug debug_asan debug_tsan: \
+    CFLAGS = -O0 -Wall -Werror -Wextra -I includes -I libft/includes
+
+debug: DFLAGS = $(DFLAGS_COMMON)
+debug: header start_timer $(OBJS) end_timer
+	@$(CC) $(OBJS) $(DFLAGS) -o $(NAME)
 	@echo "$(GREEN) Philosophers debug ready !$(DEF_COLOR)"
 
+debug_asan: DFLAGS = $(DFLAGS_ASAN)
+debug_asan: header start_timer $(OBJS) end_timer
+	@$(CC) $(CFLAGS) $(DFLAGS) $(OBJS) -o $(NAME)
+	@printf "$(GREEN) Philosophers debug [ASan+UBSan] ready !$(DEF_COLOR)"
+
+debug_tsan: DFLAGS = $(DFLAGS_TSAN)
+debug_tsan: header start_timer $(OBJS) end_timer
+	@$(CC) $(CFLAGS) $(DFLAGS) $(OBJS) -o $(NAME)
+	@printf "$(YELLOW) Philosophers debug [TSan] ready ! $(DEF_COLOR)"
 
 $(NAME): $(OBJS)
 	@$(CC) $(OBJS) -o $(NAME)
