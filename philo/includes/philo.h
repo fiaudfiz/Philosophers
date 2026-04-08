@@ -6,7 +6,7 @@
 /*   By: miouali <miouali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 11:05:13 by miouali           #+#    #+#             */
-/*   Updated: 2026/04/07 11:05:13 by miouali          ###   ########.fr       */
+/*   Updated: 2026/04/08 13:53:18 by miouali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <stdio.h>
 # include <unistd.h>
 # include <stdlib.h>
+# include <sys/time.h>
 
 typedef struct s_tab_of_thread
 {
@@ -26,6 +27,7 @@ typedef struct s_tab_of_thread
     pthread_mutex_t         *fork_left;
     pthread_mutex_t         *fork_right;
     struct s_global_struct  *ptr;
+    int                     number;
 
 }   t_tab_of_thread ;
 
@@ -42,5 +44,6 @@ typedef struct s_global_struct
 }   t_global_struct ;
 
 void    prog_usage(void);
+void    init_variables(t_global_struct *global, t_tab_of_thread *tab);
 
 #endif
