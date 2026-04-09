@@ -8,7 +8,7 @@ void *routine_thread(void *arg)
     //remplir le tid
     if (tab->number % 2 != 0) //impair
     {
-        while (1) //ajouter le max de repas
+        while (!tab->ptr->is_died) //ajouter le max de repas
         {
             //mutex gauche
             pthread_mutex_lock(tab->fork_left);
@@ -32,7 +32,7 @@ void *routine_thread(void *arg)
     }
     else //pair
     {
-        while (1) //ajouter le max de repas
+        while (!tab->ptr->is_died) //ajouter le max de repas
         {
             //think(dormir) last_meal + time_to_die - time_to_eat
             print("think");
@@ -52,4 +52,5 @@ void *routine_thread(void *arg)
             sleep(tab->ptr->time_to_sleep);
         }
     }
+    //qqun est mort donc agir ici
 }
