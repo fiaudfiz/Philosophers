@@ -1,12 +1,14 @@
-#include <philo.h>
+#include "philo.h"
 
 void *routine_thread(void *arg)
 {
     t_tab_of_thread *tab = (t_tab_of_thread *)arg;
 
+    tab->tid = pthread_self();
+    //remplir le tid
     if (tab->number % 2 != 0) //impair
     {
-        while (1)
+        while (1) //ajouter le max de repas
         {
             //mutex gauche
             pthread_mutex_lock(tab->fork_left);
@@ -30,7 +32,7 @@ void *routine_thread(void *arg)
     }
     else //pair
     {
-        while (1)
+        while (1) //ajouter le max de repas
         {
             //think(dormir) last_meal + time_to_die - time_to_eat
             print("think");
