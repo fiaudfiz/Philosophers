@@ -6,7 +6,7 @@
 /*   By: miouali <miouali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 11:05:04 by miouali           #+#    #+#             */
-/*   Updated: 2026/04/09 13:30:21 by miouali          ###   ########.fr       */
+/*   Updated: 2026/04/09 14:29:23 by miouali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,16 +30,16 @@ int main(int ac, char **av)
     global = malloc(sizeof(t_global_struct)); //struct de base
     if (!global)
     {
-        ERROR_AND_QUIT;
+        exit(global, tab);
+        return (1);
     }
     if (parse_args(ac, av, global) != 0) //parser nombres/positifs //peut etre deja les ranger
         return (write(2, "Error\n", 6));
     global->tab = malloc (sizeof(t_tab_of_thread) * global->number_of_philo); //structure du tableau des threads
     if (!global->tab)
     {
-        ERROR_AND_QUIT;
-        free (global);
-        return (0);
+        exit(global, tab);
+        return (1);
     }
     //il faut remplir le tab avec des nombres
     i = 0;
@@ -51,10 +51,8 @@ int main(int ac, char **av)
     global->fork = malloc(sizeof(pthread_mutex_t) * global->number_of_philo); //tableau des mutex
     if (!global->fork)
     {
-        ERROR_AND_QUIT;
-        free(global->tab);
-        free(global);
-        return (0);
+        exit(global, tab);
+        return (1);
     }
     //declaration des mutex ici
     init_variables(global, tab); //init variables peut etre a bouger // peut etre declarer les mutex ici pour la place //atoi pour transformer tous les args en number
@@ -64,8 +62,5 @@ int main(int ac, char **av)
     while (body_guard(&global) != 1)
     {
     }
-    free_and_exit(&global);
+    exit(global, tab);
 }
-
-
-//penser aux mutex pour les print
