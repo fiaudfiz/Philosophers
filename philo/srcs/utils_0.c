@@ -6,7 +6,7 @@
 /*   By: miouali <miouali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 11:04:49 by miouali           #+#    #+#             */
-/*   Updated: 2026/04/08 13:13:39 by miouali          ###   ########.fr       */
+/*   Updated: 2026/04/09 10:12:33 by miouali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,4 +42,14 @@ void    init_variables(t_global_struct *global, t_tab_of_thread *tab)
         pthread_create(&global->tab[i], NULL, routine_thread(), tab);
         i++;
     }
+}
+
+long    get_time_ms(void)
+{
+    struct  timeval now;
+    long    time;
+
+    gettimeofday(&now, NULL);
+    time = now.tv_sec * 1000 + now.tv_usec / 1000;
+    return (time);
 }
