@@ -6,7 +6,7 @@
 /*   By: miouali <miouali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 11:04:49 by miouali           #+#    #+#             */
-/*   Updated: 2026/04/09 13:34:10 by miouali          ###   ########.fr       */
+/*   Updated: 2026/04/09 14:29:51 by miouali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void    init_variables(t_global_struct *global, t_tab_of_thread *tab)
     while (i < global->number_of_philo)
     {
         if (pthread_mutex_init(&global->fork[i], NULL) != 0)
-            ERROR_AND_QUIT;
+            exit(global, tab);
         i++;
     }
     i = 0;
@@ -43,7 +43,7 @@ void    init_variables(t_global_struct *global, t_tab_of_thread *tab)
         {
             if(pthread_create(&global->tab[i].tid, NULL, routine_thread, &global->tab[i]) != 0)
             {
-                ERROR_AND_QUIT;
+                exit(global, tab);
             }
         }
         i++;
@@ -55,7 +55,7 @@ void    init_variables(t_global_struct *global, t_tab_of_thread *tab)
         {
             if (pthread_create(&global->tab[i].tid, NULL, routine_thread, &global->tab[i]) != 0)
             {
-                ERROR_AND_QUIT;
+                exit(global, tab);
             }
             i++;
         }
