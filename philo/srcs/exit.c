@@ -6,13 +6,44 @@
 /*   By: miouali <miouali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 13:35:16 by miouali           #+#    #+#             */
-/*   Updated: 2026/04/09 13:39:36 by miouali          ###   ########.fr       */
+/*   Updated: 2026/04/09 14:23:29 by miouali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
+//cette fonction est appelee apres que les threads sont arretes donc c juste du free
+//detruire les mutex (mutex de print aussi)
+//liberer ressources
 void    exit(t_global_struct *global, t_tab_of_thread *tab)
 {
+    int i = 0;
+
+    if (global->fork)
+    {
+        while (i < global->number_of_philo)
+        {
+            pthread_mutex_destroy(&global->fork[i]);
+            i++;
+        }
+        free(global->fork);
+    }
+    if (global->fork_print)
+        pthread_mutex_destroy(&global->fork_print);
     
+    if (global->tab)
+    {
+        i = 0;
+        while (i < global->number_of_philo)
+        {
+            free(&global->tab[i]);
+            i++;
+        }
+        free(global->tab);
+    }
+    if (global)
+    {
+        free(global);
+    }
+    return ;
 }
