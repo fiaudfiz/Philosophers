@@ -6,7 +6,7 @@
 #    By: miouali <miouali@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/04/07 11:04:43 by miouali           #+#    #+#              #
-#    Updated: 2026/04/07 11:08:19 by miouali          ###   ########.fr        #
+#    Updated: 2026/04/09 13:52:02 by miouali          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,7 +40,7 @@ SRCS_DIR = srcs/
 OBJS_DIR = objs/
 HEADER_DIR = includes/
 
-SRCS_PHILO = main.c prog_usage.c
+SRCS_PHILO = main.c prog_usage.c parser.c routine.c body_guard.c exit.c
 
 ALL_SRCS = $(addprefix $(SRCS_DIR), $(SRCS_PHILO))
 
@@ -77,6 +77,17 @@ debug_tsan: header start_timer $(OBJS) end_timer
 	@printf "$(YELLOW) Philosophers debug [TSan] ready ! $(DEF_COLOR)"
 
 $(NAME): $(OBJS)
+	@printf "$(CYAN)██████╗ ██╗  ██╗██╗██╗      ██████╗ ███████╗ ██████╗ ██████╗ ██╗  ██╗███████╗██████╗ ███████╗\n"
+	@sleep 0.1
+	@printf "██╔══██╗██║  ██║██║██║     ██╔═══██╗██╔════╝██╔═══██╗██╔══██╗██║  ██║██╔════╝██╔══██╗██╔════╝\n"
+	@sleep 0.1
+	@printf "██████╔╝███████║██║██║     ██║   ██║███████╗██║   ██║██████╔╝███████║█████╗  ██████╔╝███████╗\n"
+	@sleep 0.1
+	@printf "██╔═══╝ ██╔══██║██║██║     ██║   ██║╚════██║██║   ██║██╔═══╝ ██╔══██║██╔══╝  ██╔══██╗╚════██║\n"
+	@sleep 0.1
+	@printf "██║     ██║  ██║██║███████╗╚██████╔╝███████║╚██████╔╝██║     ██║  ██║███████╗██║  ██║███████║\n"
+	@sleep 0.1
+	@printf "╚═╝     ╚═╝  ╚═╝╚═╝╚══════╝ ╚═════╝ ╚══════╝ ╚═════╝ ╚═╝     ╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝╚══════╝$(DEF_COLOR)\n"
 	@$(CC) $(OBJS) -o $(NAME)
 	@printf "\n\n$(GREEN) Philo is ready to be used !$(DEF_COLOR)"
 
