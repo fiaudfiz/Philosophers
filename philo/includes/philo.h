@@ -6,7 +6,7 @@
 /*   By: miouali <miouali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 11:05:13 by miouali           #+#    #+#             */
-/*   Updated: 2026/04/09 13:39:46 by miouali          ###   ########.fr       */
+/*   Updated: 2026/04/09 14:22:58 by miouali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ typedef struct s_global_struct
     t_tab_of_thread    *tab;
     int     number_of_philo;
     pthread_mutex_t      *fork;
+    pthread_mutex_t       *fork_print;
 }   t_global_struct ;
 
 void    prog_usage(void);
