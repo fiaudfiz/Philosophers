@@ -6,7 +6,7 @@
 /*   By: miouali <miouali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 11:04:49 by miouali           #+#    #+#             */
-/*   Updated: 2026/04/09 10:12:33 by miouali          ###   ########.fr       */
+/*   Updated: 2026/04/09 13:34:10 by miouali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,28 @@ void    init_variables(t_global_struct *global, t_tab_of_thread *tab)
     }
     i = 0;
     //declaration des philos (threads) boucle while les threads commencent direct apres
-    while (i < global->number_of_philo)
+    while (i < global->number_of_philo) //declarer les impairs d'abord
     {
-        pthread_create(&global->tab[i], NULL, routine_thread(), tab);
+        if (i % 2 != 0)
+        {
+            if(pthread_create(&global->tab[i].tid, NULL, routine_thread, &global->tab[i]) != 0)
+            {
+                ERROR_AND_QUIT;
+            }
+        }
         i++;
+    }
+    i = 0;
+    while (i < global->number_of_philo) //les pairs ensuite
+    {
+        if (i % 2 == 0)
+        {
+            if (pthread_create(&global->tab[i].tid, NULL, routine_thread, &global->tab[i]) != 0)
+            {
+                ERROR_AND_QUIT;
+            }
+            i++;
+        }
     }
 }
 
