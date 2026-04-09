@@ -6,7 +6,7 @@
 /*   By: miouali <miouali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 11:05:04 by miouali           #+#    #+#             */
-/*   Updated: 2026/04/08 11:02:44 by miouali          ###   ########.fr       */
+/*   Updated: 2026/04/09 11:09:58 by miouali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,6 @@ int main(int ac, char **av)
     //declaration des mutex ici
     init_variables(global, tab); //init variables peut etre a bouger // peut etre declarer les mutex ici pour la place //atoi pour transformer tous les args en number
     //pk pas aussi encoyer les threads ET les mutex comme ca on init tout dedans //et aussi assigner les pointeurs de fork.
-    
-    
     pthread_create(tid, NULL, routine_body_guard(), global); //thread pour surveiller
     //on doit attendre que le thread body_guard envoie un signal
     while (routine_body_guard() != 1)
@@ -64,3 +62,6 @@ int main(int ac, char **av)
     }
     free_and_exit(&global);
 }
+
+
+//penser aux mutex pour les print
