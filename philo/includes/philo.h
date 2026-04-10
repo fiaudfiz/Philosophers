@@ -6,7 +6,7 @@
 /*   By: miouali <miouali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 11:05:13 by miouali           #+#    #+#             */
-/*   Updated: 2026/04/09 14:22:58 by miouali          ###   ########.fr       */
+/*   Updated: 2026/04/10 10:57:56 by miouali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,5 +50,6 @@ long    get_time_ms(void);
 void    *body_guard(void *arg);
 void *routine_thread(void *arg);
 void    exit(t_global_struct *global, t_tab_of_thread *tab);
+void *routine_body_guard(void *arg);
 
 #endif

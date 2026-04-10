@@ -54,3 +54,29 @@ void *routine_thread(void *arg)
     }
     //qqun est mort donc agir ici
 }
+
+//a chaque print verifier que personne est mort
+
+void *routine_body_guard(void *arg)
+{
+    t_global_struct *global = (t_global_struct *)arg;
+    int i = 0;
+
+    while (i < global->number_of_philo && global->is_died == 0)
+    {
+        if (now() - global->tab[i].time_since_last_meal > global->time_to_die)
+        {
+            global->is_died = 1;
+            //mutex de print
+            print ("mort");
+            //mutex
+            break; //peut etre plus rapide car on sort direct mais peut etre besoin de sortir aussi du while (1)
+        }
+        i++;
+        //remettre i = 0;
+        sleep(0.001);
+        //sleep 1ms
+    }
+    //ici des que un meurt chaque thread va s'arreter tout seul
+    //on doit arreter ce thread
+}
