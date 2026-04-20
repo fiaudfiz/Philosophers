@@ -6,13 +6,13 @@
 /*   By: miouali <miouali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 11:28:27 by miouali           #+#    #+#             */
-/*   Updated: 2026/04/09 11:28:29 by miouali          ###   ########.fr       */
+/*   Updated: 2026/04/20 12:14:16 by miouali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <philo.h>
 
-void    *body_guard(void *arg)
+/*void    *body_guard(void *arg)
 {
     t_global_struct *global = (t_global_struct *)arg;
     int i = 0;
@@ -23,11 +23,42 @@ void    *body_guard(void *arg)
         while (i < global->number_of_philo)
         {
             if (current_time() - global->tab[i].time_since_last_meal > global->time_to_die)
-            {
-                signal_death;
-            }   
+            {   
+                global->is_died = 1;
+                break;
+            }
             i++;
         }
         sleep(0.01);
     }
+    //ici qqun est mort, on doit quitter les threads
+
+
+}*/
+
+
+void *routine_body_guard(void *arg)
+{
+    t_global_struct *global = (t_global_struct *)arg;
+    int i = 0;
+
+    while (i < global->number_of_philo && global->is_died == 0)
+    {
+        if (now() - global->tab[i].time_since_last_meal > global->time_to_die)
+        {
+            global->is_died = 1;
+            pthread_mutex_lock(global->fork_print);
+            print ("mort");
+            pthread_mutex_unlock(global->fork_print);
+            break; //peut etre plus rapide car on sort direct mais peut etre besoin de sortir aussi du while (1)
+        }
+        i++;
+        if (i == global->number_of_philo)
+            i = 0;
+        sleep(0.001);
+        //sleep 1ms
+    }
+    //ici des que un meurt chaque thread va s'arreter tout seul
+    //on doit arreter ce thread et on retourne au main
+    return ;
 }
