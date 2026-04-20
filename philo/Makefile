@@ -6,7 +6,7 @@
 #    By: miouali <miouali@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/04/07 11:04:43 by miouali           #+#    #+#              #
-#    Updated: 2026/04/11 10:39:27 by miouali          ###   ########.fr        #
+#    Updated: 2026/04/20 15:19:52 by miouali          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ RESET   = \033[0m
 ERR_LOG = .errors.log
 
 CC = cc
-CFLAGS =  -O3 -Wall -Wextra -Werror -I includes -std=c99
+CFLAGS = -O3 -Wall -Wextra -Werror -I includes #-std=c99
 DFLAGS_COMMON = -g -Wshadow -fno-omit-frame-pointer
 
 #ASan + UBSan
@@ -40,7 +40,7 @@ SRCS_DIR = srcs/
 OBJS_DIR = objs/
 HEADER_DIR = includes/
 
-SRCS_PHILO = main.c prog_usage.c parser.c routine.c body_guard.c exit.c
+SRCS_PHILO = main.c prog_usage.c parser.c routine.c body_guard.c exit.c utils_0.c
 
 ALL_SRCS = $(addprefix $(SRCS_DIR), $(SRCS_PHILO))
 
@@ -59,7 +59,8 @@ start_timer:
 	$(eval START_TIME := $(shell date +%s))
 
 debug debug_asan debug_tsan: \
-    CFLAGS = -O0 -Wall -Werror -Wextra -I includes -I libft/includes
+	CC = gcc
+    CFLAGS = -O0 -Wall -Werror -Wextra -I includes -g
 
 debug: DFLAGS = $(DFLAGS_COMMON)
 debug: header start_timer $(OBJS) end_timer
@@ -69,15 +70,15 @@ debug: header start_timer $(OBJS) end_timer
 debug_asan: DFLAGS = $(DFLAGS_ASAN)
 debug_asan: header start_timer $(OBJS) end_timer
 	@$(CC) $(CFLAGS) $(DFLAGS) $(OBJS) -o $(NAME)
-	@printf "$(GREEN) Philosophers debug [ASan+UBSan] ready !$(DEF_COLOR)"
+	@printf "$(GREEN) Philosophers debug [ASan+UBSan] ready !$(DEF_COLOR)\n"
 
 debug_tsan: DFLAGS = $(DFLAGS_TSAN)
 debug_tsan: header start_timer $(OBJS) end_timer
 	@$(CC) $(CFLAGS) $(DFLAGS) $(OBJS) -o $(NAME)
-	@printf "$(YELLOW) Philosophers debug [TSan] ready ! $(DEF_COLOR)"
+	@printf "$(YELLOW) Philosophers debug [TSan] ready ! $(DEF_COLOR)\n"
 
 $(NAME): $(OBJS)
-	@printf "$(CYAN)██████╗ ██╗  ██╗██╗██╗      ██████╗ ███████╗ ██████╗ ██████╗ ██╗  ██╗███████╗██████╗ ███████╗\n"
+	@printf "\n\n$(CYAN)██████╗ ██╗  ██╗██╗██╗      ██████╗ ███████╗ ██████╗ ██████╗ ██╗  ██╗███████╗██████╗ ███████╗\n"
 	@sleep 0.1
 	@printf "██╔══██╗██║  ██║██║██║     ██╔═══██╗██╔════╝██╔═══██╗██╔══██╗██║  ██║██╔════╝██╔══██╗██╔════╝\n"
 	@sleep 0.1
@@ -89,7 +90,7 @@ $(NAME): $(OBJS)
 	@sleep 0.1
 	@printf "╚═╝     ╚═╝  ╚═╝╚═╝╚══════╝ ╚═════╝ ╚══════╝ ╚═════╝ ╚═╝     ╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝╚══════╝$(DEF_COLOR)\n"
 	@$(CC) $(OBJS) -o $(NAME)
-	@printf "\n\n$(GREEN) Philo is ready to be used !$(DEF_COLOR)"
+	@printf "\n\n$(GREEN) Philo is ready to be used !$(DEF_COLOR)\n"
 
 
 # Variables pour la barre
@@ -100,7 +101,7 @@ $(OBJS_DIR)%.o: $(SRCS_DIR)%.c $(HEADER)
 	@mkdir -p $(dir $@)
 	@$(eval CURRENT_FILE=$(shell printf $$(($(CURRENT_FILE) + 1))))
 	@$(eval PERCENT=$(shell printf $$(($(CURRENT_FILE) * 100 / $(TOTAL_FILES)))))
-	@printf "\r$(CYAN)🛠️  Compiling Philosophers... [%-20s] %d%%\n" \
+	@printf "\r$(CYAN)🛠️  Compiling Philosophers... [%-20s] %d%%" \
 		"$(shell printf '#%.0s' $$(seq 1 $$(($(PERCENT) / 5))))" $(PERCENT)
 	@$(CC) $(CFLAGS) -c $< -o $@ 2> .temp_err || \
 		(printf "\n$(PURPLE)❌ Erreur dans $< :$(RESET)\n" && cat .temp_err >> $(ERR_LOG) && cat .temp_err && rm -f .temp_err)
@@ -112,12 +113,12 @@ end_timer:
 	@$(eval ERRORS := $(shell if [ -f $(ERR_LOG) ]; then grep -c "error:" $(ERR_LOG); else printf 0; fi))
 	@printf "\n%s\n" "--------------------------------------------------"
 	@if [ $(ERRORS) -eq 0 ]; then \
-		printf "$(GREEN)✅ COMPILATION TERMINÉE !$(RESET)"; \
+		printf "$(GREEN)✅ COMPILATION TERMINÉE !$(RESET)\n"; \
 	else \
-		printf "$(RED)❌ COMPILATION TERMINÉE AVEC DES ERREURS$(RESET)"; \
+		printf "$(RED)❌ COMPILATION TERMINÉE AVEC DES ERREURS$(RESET)\n"; \
 	fi
-	@printf "Temps écoulé : $(DURATION) secondes"
-	@printf "  Nombre d'erreurs : $(ERRORS)"
+	@printf "Temps écoulé : $(DURATION) secondes\n"
+	@printf "  Nombre d'erreurs : $(ERRORS)\n"
 	@printf "%s\n" "--------------------------------------------------"
 	@rm -f $(ERR_LOG)
 
