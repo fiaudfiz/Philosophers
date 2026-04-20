@@ -6,7 +6,7 @@
 /*   By: miouali <miouali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 13:35:16 by miouali           #+#    #+#             */
-/*   Updated: 2026/04/09 14:23:29 by miouali          ###   ########.fr       */
+/*   Updated: 2026/04/20 14:10:46 by miouali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 //cette fonction est appelee apres que les threads sont arretes donc c juste du free
 //detruire les mutex (mutex de print aussi)
 //liberer ressources
-void    exit(t_global_struct *global, t_tab_of_thread *tab)
+void    exit_philo(t_global_struct *global)
 {
     int i = 0;
 
@@ -29,8 +29,7 @@ void    exit(t_global_struct *global, t_tab_of_thread *tab)
         free(global->fork);
     }
     if (global->fork_print)
-        pthread_mutex_destroy(&global->fork_print);
-    
+        pthread_mutex_destroy(global->fork_print);
     if (global->tab)
     {
         i = 0;
