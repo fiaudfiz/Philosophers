@@ -6,7 +6,7 @@
 /*   By: miouali <miouali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 11:05:13 by miouali           #+#    #+#             */
-/*   Updated: 2026/04/10 10:57:56 by miouali          ###   ########.fr       */
+/*   Updated: 2026/04/20 14:11:53 by miouali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,10 @@ typedef struct s_global_struct
 void    prog_usage(void);
 void    init_variables(t_global_struct *global, t_tab_of_thread *tab);
 long    get_time_ms(void);
-void    *body_guard(void *arg);
+//void    *body_guard(void *arg);
 void *routine_thread(void *arg);
-void    exit(t_global_struct *global, t_tab_of_thread *tab);
+void    exit_philo(t_global_struct *global);
 void *routine_body_guard(void *arg);
+int parse_args(int ac, char **av, t_global_struct *global);
 
 #endif
