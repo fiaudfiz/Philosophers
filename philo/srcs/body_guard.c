@@ -6,7 +6,7 @@
 /*   By: miouali <miouali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 11:28:27 by miouali           #+#    #+#             */
-/*   Updated: 2026/04/20 12:14:16 by miouali          ###   ########.fr       */
+/*   Updated: 2026/04/20 15:37:59 by miouali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,21 +44,21 @@ void *routine_body_guard(void *arg)
 
     while (i < global->number_of_philo && global->is_died == 0)
     {
-        if (now() - global->tab[i].time_since_last_meal > global->time_to_die)
+        if (get_time_ms() - global->tab[i].time_since_last_meal > global->time_to_die)
         {
             global->is_died = 1;
             pthread_mutex_lock(global->fork_print);
-            print ("mort");
+            printf("%ld     %d is died\n", get_time_ms(), global->tab[i].number);
             pthread_mutex_unlock(global->fork_print);
-            break; //peut etre plus rapide car on sort direct mais peut etre besoin de sortir aussi du while (1)
+            break;
         }
         i++;
         if (i == global->number_of_philo)
             i = 0;
-        sleep(0.001);
+        usleep(100);
         //sleep 1ms
     }
     //ici des que un meurt chaque thread va s'arreter tout seul
     //on doit arreter ce thread et on retourne au main
-    return ;
+    return (NULL);
 }
