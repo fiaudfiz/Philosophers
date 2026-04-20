@@ -6,7 +6,7 @@
 /*   By: miouali <miouali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 11:04:49 by miouali           #+#    #+#             */
-/*   Updated: 2026/04/09 14:29:51 by miouali          ###   ########.fr       */
+/*   Updated: 2026/04/20 11:46:05 by miouali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,9 @@ void    init_variables(t_global_struct *global, t_tab_of_thread *tab)
             exit(global, tab);
         i++;
     }
+    //creation du mutex de print
+    if (pthread_mutex_init(&global->fork_print, NULL) != 0)
+        exit(global, tab);
     i = 0;
     while (i < global->number_of_philo)
     {
