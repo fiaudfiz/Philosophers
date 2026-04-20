@@ -6,7 +6,7 @@
 /*   By: miouali <miouali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 11:05:04 by miouali           #+#    #+#             */
-/*   Updated: 2026/04/20 13:06:11 by miouali          ###   ########.fr       */
+/*   Updated: 2026/04/20 15:32:59 by miouali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,9 @@
 #include <unistd.h>
 #include <stdlib.h>
 
-
 int main(int ac, char **av)
 {
     t_global_struct     *global;
-    t_tab_of_thread     *tab;
     int i = 0;
     pthread_t           tid;
 
@@ -30,7 +28,7 @@ int main(int ac, char **av)
     global = malloc(sizeof(t_global_struct)); //struct de base
     if (!global)
     {
-        exit(global, tab);
+        exit_philo(global);
         return (1);
     }
     if (parse_args(ac, av, global) != 0) //parser nombres/positifs //peut etre deja les ranger
@@ -38,7 +36,7 @@ int main(int ac, char **av)
     global->tab = malloc (sizeof(t_tab_of_thread) * global->number_of_philo); //structure du tableau des threads
     if (!global->tab)
     {
-        exit(global, tab);
+        exit_philo(global);
         return (1);
     }
     //il faut remplir le tab avec des nombres
@@ -51,12 +49,13 @@ int main(int ac, char **av)
     global->fork = malloc(sizeof(pthread_mutex_t) * global->number_of_philo); //tableau des mutex
     if (!global->fork)
     {
-        exit(global, tab);
+        exit_philo(global);
         return (1);
     }
+    global->fork_print = malloc(sizeof(pthread_mutex_t));
     //declaration des mutex, thread, et lancement ici
-    init_variables(global, tab); //atoi pour transformer tous les args en number
-    pthread_create(tid, NULL, routine_body_guard, global); //thread pour surveiller
+    init_variables(global, global->tab); //atoi pour transformer tous les args en number
+    pthread_create(&tid, NULL, routine_body_guard, global); //thread pour surveiller
     //ici qqun est mort on doit join les threads
     i = 0;
     while (i < global->number_of_philo)
@@ -66,5 +65,5 @@ int main(int ac, char **av)
     }
     pthread_join(tid, NULL);
     //ici tout est join on peut tout detruire
-    exit(global, tab);
+    exit_philo(global);
 }
