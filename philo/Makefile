@@ -6,7 +6,7 @@
 #    By: miouali <miouali@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/04/07 11:04:43 by miouali           #+#    #+#              #
-#    Updated: 2026/04/09 13:52:02 by miouali          ###   ########.fr        #
+#    Updated: 2026/04/11 10:39:27 by miouali          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -122,7 +122,7 @@ end_timer:
 	@rm -f $(ERR_LOG)
 
 clean:
-	$(RM) $(OBJS_DIR)	
+	$(RM) $(OBJS_DIR)
 	@printf "$(PURPLE) Objects cleaned!$(DEF_COLOR)\n"
 
 fclean: clean
