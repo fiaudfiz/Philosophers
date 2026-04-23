@@ -6,7 +6,7 @@
 #    By: miouali <miouali@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/04/07 11:04:43 by miouali           #+#    #+#              #
-#    Updated: 2026/04/20 15:19:52 by miouali          ###   ########.fr        #
+#    Updated: 2026/04/23 12:03:10 by miouali          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,7 @@ DFLAGS_COMMON = -g -Wshadow -fno-omit-frame-pointer
 
 #ASan + UBSan
 DFLAGS_ASAN = $(DFLAGS_COMMON) \
-			-fsanitize=adress,undefined \
+			-fsanitize=address,undefined \
 			-fno-sanitize-recover=all
 
 #TSan

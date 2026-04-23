@@ -6,7 +6,7 @@
 /*   By: miouali <miouali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 13:35:16 by miouali           #+#    #+#             */
-/*   Updated: 2026/04/20 14:10:46 by miouali          ###   ########.fr       */
+/*   Updated: 2026/04/23 13:07:16 by miouali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,11 @@
 //liberer ressources
 void    exit_philo(t_global_struct *global)
 {
-    int i = 0;
+    int i = 1;
 
     if (global->fork)
     {
-        while (i < global->number_of_philo)
+        while (i <= global->number_of_philo)
         {
             pthread_mutex_destroy(&global->fork[i]);
             i++;
@@ -32,8 +32,8 @@ void    exit_philo(t_global_struct *global)
         pthread_mutex_destroy(global->fork_print);
     if (global->tab)
     {
-        i = 0;
-        while (i < global->number_of_philo)
+        i = 1;
+        while (i <= global->number_of_philo)
         {
             free(&global->tab[i]);
             i++;

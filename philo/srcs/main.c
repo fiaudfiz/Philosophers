@@ -6,7 +6,7 @@
 /*   By: miouali <miouali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 11:05:04 by miouali           #+#    #+#             */
-/*   Updated: 2026/04/20 15:32:59 by miouali          ###   ########.fr       */
+/*   Updated: 2026/04/23 13:07:32 by miouali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 int main(int ac, char **av)
 {
     t_global_struct     *global;
-    int i = 0;
+    int i;
     pthread_t           tid;
 
     if (ac != 5 && ac != 6)
@@ -40,10 +40,10 @@ int main(int ac, char **av)
         return (1);
     }
     //il faut remplir le tab avec des nombres
-    i = 0;
-    while (i < global->number_of_philo)
+    i = 1;
+    while (i <= global->number_of_philo)
     {
-        global->tab[i].number = i + 1;
+        global->tab[i].number = i;
         i++;
     }
     global->fork = malloc(sizeof(pthread_mutex_t) * global->number_of_philo); //tableau des mutex
@@ -55,10 +55,10 @@ int main(int ac, char **av)
     global->fork_print = malloc(sizeof(pthread_mutex_t));
     //declaration des mutex, thread, et lancement ici
     init_variables(global, global->tab); //atoi pour transformer tous les args en number
-    pthread_create(&tid, NULL, routine_body_guard, global); //thread pour surveiller
+    pthread_create(&tid, NULL, routine_body_guard, global); //thread pour surveiller;
     //ici qqun est mort on doit join les threads
-    i = 0;
-    while (i < global->number_of_philo)
+    i = 1;
+    while (i <= global->number_of_philo)
     {
         pthread_join(global->tab[i].tid, NULL);
         i++;

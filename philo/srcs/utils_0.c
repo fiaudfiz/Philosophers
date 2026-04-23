@@ -6,7 +6,7 @@
 /*   By: miouali <miouali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 11:04:49 by miouali           #+#    #+#             */
-/*   Updated: 2026/04/20 15:28:43 by miouali          ###   ########.fr       */
+/*   Updated: 2026/04/23 13:14:21 by miouali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@ void    init_variables(t_global_struct *global, t_tab_of_thread *tab)
 {
     int i;
     
-    i = 0;
+    i = 1;
     //mutex dabord
-    while (i < global->number_of_philo)
+    while (i <= global->number_of_philo)
     {
         if (pthread_mutex_init(&global->fork[i], NULL) != 0)
             exit_philo(global);
@@ -28,27 +28,27 @@ void    init_variables(t_global_struct *global, t_tab_of_thread *tab)
     //creation du mutex de print
     if (pthread_mutex_init(global->fork_print, NULL) != 0)
         exit_philo(global);
-    i = 0;
+    i = 1;
     if (!tab || !global->fork)
     {
         printf("error\n");
         exit_philo(global);
     }
-    while (i < global->number_of_philo)
+    while (i <= global->number_of_philo)
     {
-        tab[i].time_since_last_meal = 0;
+        tab[i].time_since_last_meal = get_time_ms();
         tab[i].number_of_eat = 0;
         tab[i].fork_left = &global->fork[i];
-        if (i == global->number_of_philo - 1)
-            tab[i].fork_right = &global->fork[0];
+        if (i == global->number_of_philo)
+            tab[i].fork_right = &global->fork[1];
         else
-            tab[i].fork_right = &global->fork[i + 1];
+            tab[i].fork_right = &global->fork[i];
         tab[i].ptr = global;
         i++;
     }
-    i = 0;
+    i = 1;
     //declaration des philos (threads) boucle while les threads commencent direct apres
-    while (i < global->number_of_philo) //declarer les impairs d'abord
+    while (i <= global->number_of_philo) //declarer les impairs d'abord
     {
         if (i % 2 != 0)
         {
@@ -59,8 +59,8 @@ void    init_variables(t_global_struct *global, t_tab_of_thread *tab)
         }
         i++;
     }
-    i = 0;
-    while (i < global->number_of_philo) //les pairs ensuite
+    i = 1;
+    while (i <= global->number_of_philo) //les pairs ensuite
     {
         if (i % 2 == 0)
         {
@@ -68,8 +68,8 @@ void    init_variables(t_global_struct *global, t_tab_of_thread *tab)
             {
                 exit_philo(global);
             }
-            i++;
         }
+        i++;
     }
 }
 

@@ -6,7 +6,7 @@
 /*   By: miouali <miouali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 11:28:27 by miouali           #+#    #+#             */
-/*   Updated: 2026/04/20 15:37:59 by miouali          ###   ########.fr       */
+/*   Updated: 2026/04/23 12:17:55 by miouali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,9 @@
 void *routine_body_guard(void *arg)
 {
     t_global_struct *global = (t_global_struct *)arg;
-    int i = 0;
+    int i = 1;
 
-    while (i < global->number_of_philo && global->is_died == 0)
+    while (i <= global->number_of_philo && global->is_died == 0)
     {
         if (get_time_ms() - global->tab[i].time_since_last_meal > global->time_to_die)
         {
@@ -54,7 +54,7 @@ void *routine_body_guard(void *arg)
         }
         i++;
         if (i == global->number_of_philo)
-            i = 0;
+            i = 1;
         usleep(100);
         //sleep 1ms
     }
