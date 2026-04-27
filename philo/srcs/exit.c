@@ -6,7 +6,7 @@
 /*   By: miouali <miouali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 13:35:16 by miouali           #+#    #+#             */
-/*   Updated: 2026/04/23 13:07:16 by miouali          ###   ########.fr       */
+/*   Updated: 2026/04/24 17:44:17 by miouali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,19 +30,11 @@ void    exit_philo(t_global_struct *global)
     }
     if (global->fork_print)
         pthread_mutex_destroy(global->fork_print);
+    if (global->fork_last_meal)
+        pthread_mutex_destroy(global->fork_last_meal);
     if (global->tab)
-    {
-        i = 1;
-        while (i <= global->number_of_philo)
-        {
-            free(&global->tab[i]);
-            i++;
-        }
         free(global->tab);
-    }
     if (global)
-    {
         free(global);
-    }
     return ;
 }
