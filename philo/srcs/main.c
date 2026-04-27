@@ -6,7 +6,7 @@
 /*   By: miouali <miouali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 11:05:04 by miouali           #+#    #+#             */
-/*   Updated: 2026/04/24 18:40:20 by miouali          ###   ########.fr       */
+/*   Updated: 2026/04/27 19:52:22 by miouali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,9 @@ int main(int ac, char **av)
     }
     global->fork_print = malloc(sizeof(pthread_mutex_t));
     global->fork_last_meal = malloc(sizeof(pthread_mutex_t));
+    global->fork_is_died = malloc(sizeof (pthread_mutex_t));
+    if (global->max_eat != 0)
+        global->mutex_meal = malloc(sizeof(pthread_mutex_t));
     //declaration des mutex, thread, et lancement ici
     init_variables(global, global->tab); //atoi pour transformer tous les args en number
     pthread_create(&tid, NULL, routine_body_guard, global); //thread pour surveiller;
@@ -62,11 +65,13 @@ int main(int ac, char **av)
     while (i <= global->number_of_philo)
     {
         pthread_join(global->tab[i].tid, NULL);
+        printf ("%d join\n", i);
         i++;
     }
     pthread_join(tid, NULL);
     //ici tout est join on peut tout detruire
     exit_philo(global);
+    return (0);
 }
 
 
