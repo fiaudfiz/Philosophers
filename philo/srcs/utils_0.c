@@ -6,7 +6,7 @@
 /*   By: miouali <miouali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 11:04:49 by miouali           #+#    #+#             */
-/*   Updated: 2026/04/23 13:14:21 by miouali          ###   ########.fr       */
+/*   Updated: 2026/04/24 19:47:14 by miouali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void    init_variables(t_global_struct *global, t_tab_of_thread *tab)
     
     i = 1;
     //mutex dabord
+    global->is_died = 0;
     while (i <= global->number_of_philo)
     {
         if (pthread_mutex_init(&global->fork[i], NULL) != 0)
@@ -28,6 +29,8 @@ void    init_variables(t_global_struct *global, t_tab_of_thread *tab)
     //creation du mutex de print
     if (pthread_mutex_init(global->fork_print, NULL) != 0)
         exit_philo(global);
+    if (pthread_mutex_init(global->fork_last_meal, NULL) != 0)
+        exit_philo(global);    
     i = 1;
     if (!tab || !global->fork)
     {
@@ -42,12 +45,13 @@ void    init_variables(t_global_struct *global, t_tab_of_thread *tab)
         if (i == global->number_of_philo)
             tab[i].fork_right = &global->fork[1];
         else
-            tab[i].fork_right = &global->fork[i];
+            tab[i].fork_right = &global->fork[i + 1];
         tab[i].ptr = global;
         i++;
     }
     i = 1;
     //declaration des philos (threads) boucle while les threads commencent direct apres
+    global->start = get_time_ms();
     while (i <= global->number_of_philo) //declarer les impairs d'abord
     {
         if (i % 2 != 0)
@@ -81,4 +85,25 @@ long    get_time_ms(void)
     gettimeofday(&now, NULL);
     time = now.tv_sec * 1000 + now.tv_usec / 1000;
     return (time);
+}
+
+
+void    print_philo(t_global_struct *global, int number, int mode)
+{
+    pthread_mutex_lock(global->fork_print);
+    
+    if (global->is_died == 1)
+    {
+        pthread_mutex_unlock(global->fork_print);
+        return ;
+    }
+    if (mode == 2)
+        printf ("%ld    %d has taken a fork\n",get_time_ms() - global->start, number);
+    else if (mode == 3)
+        printf ("%ld    %d is eating\n", get_time_ms() - global->start, number);
+    else if (mode == 4)
+        printf ("%ld    %d is sleeping\n", get_time_ms() - global->start, number);
+    else if (mode == 5)
+        printf ("%ld    %d is thinking\n", get_time_ms() - global->start, number);
+    pthread_mutex_unlock(global->fork_print);
 }
