@@ -6,7 +6,7 @@
 /*   By: miouali <miouali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 11:05:04 by miouali           #+#    #+#             */
-/*   Updated: 2026/04/23 13:07:32 by miouali          ###   ########.fr       */
+/*   Updated: 2026/04/24 18:40:20 by miouali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int main(int ac, char **av)
     }
     if (parse_args(ac, av, global) != 0) //parser nombres/positifs //peut etre deja les ranger
         return (write(2, "Error\n", 6));
-    global->tab = malloc (sizeof(t_tab_of_thread) * global->number_of_philo); //structure du tableau des threads
+    global->tab = malloc (sizeof(t_tab_of_thread) * (global->number_of_philo + 1)); //structure du tableau des threads
     if (!global->tab)
     {
         exit_philo(global);
@@ -46,13 +46,14 @@ int main(int ac, char **av)
         global->tab[i].number = i;
         i++;
     }
-    global->fork = malloc(sizeof(pthread_mutex_t) * global->number_of_philo); //tableau des mutex
+    global->fork = malloc(sizeof(pthread_mutex_t) * (global->number_of_philo +  1)); //tableau des mutex
     if (!global->fork)
     {
         exit_philo(global);
         return (1);
     }
     global->fork_print = malloc(sizeof(pthread_mutex_t));
+    global->fork_last_meal = malloc(sizeof(pthread_mutex_t));
     //declaration des mutex, thread, et lancement ici
     init_variables(global, global->tab); //atoi pour transformer tous les args en number
     pthread_create(&tid, NULL, routine_body_guard, global); //thread pour surveiller;
@@ -67,3 +68,44 @@ int main(int ac, char **av)
     //ici tout est join on peut tout detruire
     exit_philo(global);
 }
+
+
+
+
+
+
+/*
+si je cree une fontcion print :
+elle devra avoir la structure globale avec le number of the philo
+
+5 modes:
+-is died
+-is eating
+-is thinking
+-is sleeping
+-has taken a fork
+
+
+prototype
+
+void    print_philo(void * arg, int number, int mode)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+*/
