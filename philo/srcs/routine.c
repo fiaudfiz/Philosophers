@@ -6,7 +6,7 @@
 /*   By: miouali <miouali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 13:23:01 by miouali           #+#    #+#             */
-/*   Updated: 2026/04/23 12:51:23 by miouali          ###   ########.fr       */
+/*   Updated: 2026/04/27 10:44:58 by miouali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,117 +22,80 @@ void *routine_thread(void *arg)
     {
         while (!tab->ptr->is_died) //ajouter le max de repas
         {
-            //mutex gauche
+            //mutex a ajouter
             if (tab->ptr->is_died != 0)
                 break;
+            // mutex
             pthread_mutex_lock(tab->fork_left);
-            pthread_mutex_lock(tab->ptr->fork_print);
-            printf("%ld  %d has taken a fork\n", get_time_ms(), tab->number);
-            pthread_mutex_unlock(tab->ptr->fork_print);
-            //mutex droit
-            if (tab->ptr->is_died != 0)
-            {
-                //delock gauche
-                pthread_mutex_unlock(tab->fork_left);
-                break;
-            }
+            print_philo(tab->ptr, tab->number, 2);
             pthread_mutex_lock(tab->fork_right);
-            pthread_mutex_lock(tab->ptr->fork_print);
-            printf("%ld  %d has taken a fork\n", get_time_ms(), tab->number);
-            pthread_mutex_unlock(tab->ptr->fork_print);
-            //manger
+            print_philo(tab->ptr, tab->number, 2);
+            //mutex
             if (tab->ptr->is_died != 0)
             {
-                //delock les 2 mutex
                 pthread_mutex_unlock(tab->fork_left);
                 pthread_mutex_unlock(tab->fork_right);
                 break;
             }
-            pthread_mutex_lock(tab->ptr->fork_print);
-            printf("%ld  %d is eating\n", get_time_ms(), tab->number);
-            pthread_mutex_unlock(tab->ptr->fork_print);
-            //update last meal
+            //mutex
+            print_philo(tab->ptr, tab->number, 3);
+            pthread_mutex_lock(tab->ptr->fork_last_meal);
             tab->time_since_last_meal = get_time_ms(); //fonction pour ramener un temps en micro secondes
+            pthread_mutex_unlock(tab->ptr->fork_last_meal);
             usleep(tab->ptr->time_to_eat * 1000);
             pthread_mutex_unlock(tab->fork_left);
             pthread_mutex_unlock(tab->fork_right);
+            print_philo(tab->ptr, tab->number, 4);
+
+            //mutex
             if (tab->ptr->is_died != 0)
                 break;
-            //dormir
-            if (tab->ptr->is_died != 0)
-                break;
-            pthread_mutex_lock(tab->ptr->fork_print);
-            printf("%ld     %d is sleeping\n", get_time_ms(), tab->number);
-            pthread_mutex_unlock(tab->ptr->fork_print);
-            if (tab->ptr->is_died != 0)
-                break;
+            //mutex
             usleep(tab->ptr->time_to_sleep * 1000);
-            //dormir last_meal + time_to_die - time_to_eat think revenir a la boucle sans forcement dormir le mutex lock va faire attendre
+            print_philo(tab->ptr, tab->number, 5);
+            //mutex
             if (tab->ptr->is_died != 0)
-                break;
-            pthread_mutex_lock(tab->ptr->fork_print);
-            printf("%ld     %d is thinking\n", get_time_ms(), tab->number);            
-            pthread_mutex_unlock(tab->ptr->fork_print);
-            if (tab->ptr->is_died != 0)
-                break;
+                 break;
+            //mutex
         }
     }
     else //pair
     {
         while (!tab->ptr->is_died) //ajouter le max de repas
         {
-            pthread_mutex_lock(tab->ptr->fork_print);
-            printf("%ld     %d is thinking\n", get_time_ms(), tab->number);            
-            pthread_mutex_unlock(tab->ptr->fork_print);
-            //gauche
+            print_philo(tab->ptr, tab->number, 5);
             if (tab->ptr->is_died != 0)
                 break;
             pthread_mutex_lock(tab->fork_right);
-            pthread_mutex_lock(tab->ptr->fork_print);
-            printf("%ld  %d has taken a fork\n", get_time_ms(), tab->number);
-            pthread_mutex_unlock(tab->ptr->fork_print);
-            //droite
+            print_philo(tab->ptr, tab->number, 2);
             if (tab->ptr->is_died != 0)
             {
-                //delock gauche
                 pthread_mutex_unlock(tab->fork_right);
                 break;
             }
             pthread_mutex_lock(tab->fork_left);
-            pthread_mutex_lock(tab->ptr->fork_print);
-            printf("%ld  %d has taken a fork\n", get_time_ms(), tab->number);
-            pthread_mutex_unlock(tab->ptr->fork_print);
-            //manger
+            print_philo(tab->ptr, tab->number, 2);
             if (tab->ptr->is_died != 0)
             {
-                //delock les 2 mutex
                 pthread_mutex_unlock(tab->fork_right);
                 pthread_mutex_unlock(tab->fork_left);
                 break;
             }
-            pthread_mutex_lock(tab->ptr->fork_print);
-            printf("%ld  %d is eating\n", get_time_ms(), tab->number);
-            pthread_mutex_unlock(tab->ptr->fork_print);
-            //update last meal
+            print_philo(tab->ptr, tab->number, 3);
+            pthread_mutex_lock(tab->ptr->fork_last_meal);
             tab->time_since_last_meal = get_time_ms();
+            pthread_mutex_unlock(tab->ptr->fork_last_meal);
             usleep(tab->ptr->time_to_eat * 1000);
             pthread_mutex_unlock(tab->fork_left);
             pthread_mutex_unlock(tab->fork_right);
             if (tab->ptr->is_died != 0)
                 break;
-            //dormir
-            if (tab->ptr->is_died != 0)
-                break;
-            pthread_mutex_lock(tab->ptr->fork_print);
-            printf("%ld     %d is sleeping\n", get_time_ms(), tab->number);
-            pthread_mutex_unlock(tab->ptr->fork_print);
+            print_philo(tab->ptr, tab->number, 4);
             if (tab->ptr->is_died != 0)
                 break;
             usleep(tab->ptr->time_to_sleep * 1000);
         }
     }
-    //normalement ici aucun mutex n'est lock donc on peut quit normalement
-    //quit
     return (NULL);
 }
 
