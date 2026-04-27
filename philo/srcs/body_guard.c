@@ -6,7 +6,7 @@
 /*   By: miouali <miouali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 11:28:27 by miouali           #+#    #+#             */
-/*   Updated: 2026/04/27 10:43:45 by miouali          ###   ########.fr       */
+/*   Updated: 2026/04/27 19:50:53 by miouali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,23 +16,38 @@ void *routine_body_guard(void *arg)
 {
     t_global_struct *global = (t_global_struct *)arg;
     int i;
+    int j;
 
     i = 1;
-    while (i <= global->number_of_philo && global->is_died == 0)
+    j = 0;
+    while (i <= global->number_of_philo && global->is_died == 0) //mutex_a ajouter
     {
         pthread_mutex_lock(global->fork_last_meal);
         if (get_time_ms() - global->tab[i].time_since_last_meal > global->time_to_die)
         {
-            //mutex a ajouter
+            pthread_mutex_lock(global->fork_is_died);
             global->is_died = 1;
-            //mutex a ajouter
-            
+            pthread_mutex_unlock(global->fork_is_died);
             pthread_mutex_lock(global->fork_print);
             printf("%ld     %d is died\n", get_time_ms() - global->start, global->tab[i].number);
             pthread_mutex_unlock(global->fork_print);
             break;
         }
         pthread_mutex_unlock(global->fork_last_meal);
+        pthread_mutex_lock(global->mutex_meal);
+        if (global->tab[i].number_of_eat == global->max_eat)
+        {
+            j = 0;
+            //while (j < )
+            pthread_mutex_lock(global->fork_is_died);
+            global->is_died = 1;
+            pthread_mutex_unlock(global->fork_is_died);
+            pthread_mutex_lock(global->fork_print);
+            printf("%ld     %d nombre max de repas\n", get_time_ms() - global->start, global->tab[i].number);
+            pthread_mutex_unlock(global->fork_print);
+            break;
+        }
+        pthread_mutex_unlock(global->mutex_meal);
         i = (i % global->number_of_philo) + 1;
         usleep(100);
     }
