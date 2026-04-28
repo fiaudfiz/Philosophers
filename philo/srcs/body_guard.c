@@ -6,7 +6,7 @@
 /*   By: miouali <miouali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 11:28:27 by miouali           #+#    #+#             */
-/*   Updated: 2026/04/28 11:39:40 by miouali          ###   ########.fr       */
+/*   Updated: 2026/04/28 14:30:43 by miouali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ void *routine_body_guard(void *arg)
                 pthread_mutex_lock(global->fork_print);
                 printf("%ld     %d nombre max de repas\n", get_time_ms() - global->start, global->tab[i].number);
                 pthread_mutex_unlock(global->fork_print);
+                pthread_mutex_unlock(global->mutex_meal);
                 break;
             }
         }
