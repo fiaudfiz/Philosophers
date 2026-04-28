@@ -6,7 +6,7 @@
 /*   By: miouali <miouali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 11:05:04 by miouali           #+#    #+#             */
-/*   Updated: 2026/04/27 19:52:22 by miouali          ###   ########.fr       */
+/*   Updated: 2026/04/28 11:16:13 by miouali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,6 @@ int main(int ac, char **av)
     while (i <= global->number_of_philo)
     {
         pthread_join(global->tab[i].tid, NULL);
-        printf ("%d join\n", i);
         i++;
     }
     pthread_join(tid, NULL);
