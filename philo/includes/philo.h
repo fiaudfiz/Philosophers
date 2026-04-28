@@ -6,7 +6,7 @@
 /*   By: miouali <miouali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 11:05:13 by miouali           #+#    #+#             */
-/*   Updated: 2026/04/27 16:41:08 by miouali          ###   ########.fr       */
+/*   Updated: 2026/04/28 11:28:05 by miouali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,5 +57,6 @@ void    exit_philo(t_global_struct *global);
 void *routine_body_guard(void *arg);
 int parse_args(int ac, char **av, t_global_struct *global);
 void    print_philo(t_global_struct *global, int number, int mode);
+int    check_is_died(t_global_struct *global);
 
 #endif
