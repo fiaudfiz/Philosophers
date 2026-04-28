@@ -6,7 +6,7 @@
 /*   By: miouali <miouali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 11:04:49 by miouali           #+#    #+#             */
-/*   Updated: 2026/04/27 16:44:43 by miouali          ###   ########.fr       */
+/*   Updated: 2026/04/28 11:29:03 by miouali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,24 +98,32 @@ long    get_time_ms(void)
 void    print_philo(t_global_struct *global, int number, int mode)
 {
     pthread_mutex_lock(global->fork_print);
-    
-    pthread_mutex_lock(global->fork_is_died);
-    if (global->is_died == 1)
+    if (check_is_died(global) == 1)
     {
         pthread_mutex_unlock(global->fork_print);
-        pthread_mutex_unlock(global->fork_is_died);
         return ;
     }
-    pthread_mutex_unlock(global->fork_is_died);
     if (mode == 1)
         printf ("%ld    %d has taken right fork\n", get_time_ms() - global->start, number);
     else if (mode == 2)
         printf ("%ld    %d has taken left fork\n",get_time_ms() - global->start, number);
     else if (mode == 3)
-        printf ("%ld    %d is eating\n", get_time_ms() - global->start, number);
+        printf ("%ld    %d is eating : number of eat = %ld\n", get_time_ms() - global->start, number, global->tab[number].number_of_eat);
     else if (mode == 4)
         printf ("%ld    %d is sleeping\n", get_time_ms() - global->start, number);
     else if (mode == 5)
         printf ("%ld    %d is thinking\n", get_time_ms() - global->start, number);
     pthread_mutex_unlock(global->fork_print);
+}
+
+int    check_is_died(t_global_struct *global)
+{
+    pthread_mutex_lock(global->fork_is_died);
+    if (global->is_died == 1)
+    {
+        pthread_mutex_unlock(global->fork_is_died);
+        return (1);
+    }
+    pthread_mutex_unlock(global->fork_is_died);
+    return (0);
 }
