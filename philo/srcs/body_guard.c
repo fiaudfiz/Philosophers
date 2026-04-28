@@ -6,7 +6,7 @@
 /*   By: miouali <miouali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 11:28:27 by miouali           #+#    #+#             */
-/*   Updated: 2026/04/27 19:50:53 by miouali          ###   ########.fr       */
+/*   Updated: 2026/04/28 11:39:40 by miouali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,7 @@ void *routine_body_guard(void *arg)
     int j;
 
     i = 1;
-    j = 0;
-    while (i <= global->number_of_philo && global->is_died == 0) //mutex_a ajouter
+    while (i <= global->number_of_philo && check_is_died(global) == 0)
     {
         pthread_mutex_lock(global->fork_last_meal);
         if (get_time_ms() - global->tab[i].time_since_last_meal > global->time_to_die)
@@ -35,17 +34,28 @@ void *routine_body_guard(void *arg)
         }
         pthread_mutex_unlock(global->fork_last_meal);
         pthread_mutex_lock(global->mutex_meal);
-        if (global->tab[i].number_of_eat == global->max_eat)
+        if (global->max_eat != -1)
         {
-            j = 0;
-            //while (j < )
-            pthread_mutex_lock(global->fork_is_died);
-            global->is_died = 1;
-            pthread_mutex_unlock(global->fork_is_died);
-            pthread_mutex_lock(global->fork_print);
-            printf("%ld     %d nombre max de repas\n", get_time_ms() - global->start, global->tab[i].number);
-            pthread_mutex_unlock(global->fork_print);
-            break;
+            j = 1;
+            while (j < global->number_of_philo)
+            {
+                if (global->tab[j].number_of_eat >= global->max_eat)
+                {
+                    j++;
+                }
+                else
+                    break;
+            }
+            if (j == global->number_of_philo)
+            {
+                pthread_mutex_lock(global->fork_is_died);
+                global->is_died = 1;
+                pthread_mutex_unlock(global->fork_is_died);
+                pthread_mutex_lock(global->fork_print);
+                printf("%ld     %d nombre max de repas\n", get_time_ms() - global->start, global->tab[i].number);
+                pthread_mutex_unlock(global->fork_print);
+                break;
+            }
         }
         pthread_mutex_unlock(global->mutex_meal);
         i = (i % global->number_of_philo) + 1;
