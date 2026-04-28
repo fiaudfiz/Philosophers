@@ -6,7 +6,7 @@
 /*   By: miouali <miouali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 11:05:13 by miouali           #+#    #+#             */
-/*   Updated: 2026/04/28 11:28:05 by miouali          ###   ########.fr       */
+/*   Updated: 2026/04/28 14:43:51 by miouali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,12 +51,14 @@ typedef struct s_global_struct
 void    prog_usage(void);
 void    init_variables(t_global_struct *global, t_tab_of_thread *tab);
 long    get_time_ms(void);
-//void    *body_guard(void *arg);
-void *routine_thread(void *arg);
+void    *routine_thread(void *arg);
 void    exit_philo(t_global_struct *global);
-void *routine_body_guard(void *arg);
-int parse_args(int ac, char **av, t_global_struct *global);
+void    *routine_body_guard(void *arg);
+int     parse_args(int ac, char **av, t_global_struct *global);
 void    print_philo(t_global_struct *global, int number, int mode);
-int    check_is_died(t_global_struct *global);
+int     check_is_died(t_global_struct *global);
+void    *even_thread(t_tab_of_thread *tab);
+void    *odd_thread(t_tab_of_thread *tab);
+void *last_odd_thread(t_tab_of_thread *tab);
 
 #endif
