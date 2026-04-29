@@ -6,7 +6,7 @@
 /*   By: miouali <miouali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 11:04:49 by miouali           #+#    #+#             */
-/*   Updated: 2026/04/28 11:29:03 by miouali          ###   ########.fr       */
+/*   Updated: 2026/04/29 14:04:05 by miouali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ void    init_variables(t_global_struct *global, t_tab_of_thread *tab)
             exit_philo(global);
         i++;
     }
-    //creation du mutex de print
     if (pthread_mutex_init(global->fork_print, NULL) != 0)
         exit_philo(global);
     if (pthread_mutex_init(global->fork_last_meal, NULL) != 0)
@@ -64,9 +63,7 @@ void    init_variables(t_global_struct *global, t_tab_of_thread *tab)
         if (i % 2 != 0)
         {
             if(pthread_create(&global->tab[i].tid, NULL, routine_thread, &global->tab[i]) != 0)
-            {
                 exit_philo(global);
-            }
         }
         i++;
     }
@@ -76,9 +73,7 @@ void    init_variables(t_global_struct *global, t_tab_of_thread *tab)
         if (i % 2 == 0)
         {
             if (pthread_create(&global->tab[i].tid, NULL, routine_thread, &global->tab[i]) != 0)
-            {
                 exit_philo(global);
-            }
         }
         i++;
     }
@@ -126,4 +121,18 @@ int    check_is_died(t_global_struct *global)
     }
     pthread_mutex_unlock(global->fork_is_died);
     return (0);
+}
+
+void    eat_philo(t_tab_of_thread *tab)
+{
+    print_philo(tab->ptr, tab->number, 3);
+    pthread_mutex_lock(tab->ptr->fork_last_meal);
+    tab->time_since_last_meal = get_time_ms();
+    pthread_mutex_unlock(tab->ptr->fork_last_meal);
+    usleep(tab->ptr->time_to_eat * 1000);
+    pthread_mutex_unlock(tab->fork_left);
+    pthread_mutex_unlock(tab->fork_right);
+    pthread_mutex_lock(tab->ptr->mutex_meal);
+    tab->number_of_eat += 1;
+    pthread_mutex_unlock(tab->ptr->mutex_meal);
 }
