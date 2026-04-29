@@ -6,7 +6,7 @@
 /*   By: miouali <miouali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 13:23:01 by miouali           #+#    #+#             */
-/*   Updated: 2026/04/28 14:51:07 by miouali          ###   ########.fr       */
+/*   Updated: 2026/04/28 18:37:23 by miouali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,25 +31,25 @@ void *even_thread(t_tab_of_thread *tab)
 {
     while (check_is_died(tab->ptr) == 0)
     {
-        print_philo(tab->ptr, tab->number, 5);
+        print_philo(tab->ptr, tab->number, 5); //is thinking
         if (check_is_died(tab->ptr) != 0)
             break;
         pthread_mutex_lock(tab->fork_right);
-        print_philo(tab->ptr, tab->number, 1);
+        print_philo(tab->ptr, tab->number, 1); //right fork
         if (check_is_died(tab->ptr) != 0)
         {
             pthread_mutex_unlock(tab->fork_right);
             break;
         }
         pthread_mutex_lock(tab->fork_left);
-        print_philo(tab->ptr, tab->number, 2);
+        print_philo(tab->ptr, tab->number, 2); //left fork
         if (check_is_died(tab->ptr) != 0)
         {
             pthread_mutex_unlock(tab->fork_right);
             pthread_mutex_unlock(tab->fork_left);
             break;
         }
-        print_philo(tab->ptr, tab->number, 3);
+        print_philo(tab->ptr, tab->number, 3); // is eating
         pthread_mutex_lock(tab->ptr->fork_last_meal);
         tab->time_since_last_meal = get_time_ms();
         pthread_mutex_unlock(tab->ptr->fork_last_meal);
@@ -59,9 +59,7 @@ void *even_thread(t_tab_of_thread *tab)
         pthread_mutex_lock(tab->ptr->mutex_meal);
         tab->number_of_eat += 1;
         pthread_mutex_unlock(tab->ptr->mutex_meal);
-        if (check_is_died(tab->ptr) != 0)   
-            break;
-        print_philo(tab->ptr, tab->number, 4);
+        print_philo(tab->ptr, tab->number, 4); //is sleeping
         if (check_is_died(tab->ptr) != 0)    
             break;          
         usleep(tab->ptr->time_to_sleep * 1000);
@@ -77,16 +75,16 @@ void    *odd_thread(t_tab_of_thread *tab)
         if (check_is_died(tab->ptr) != 0)
             break;
         pthread_mutex_lock(tab->fork_left);
-        print_philo(tab->ptr, tab->number, 2);
+        print_philo(tab->ptr, tab->number, 2); // left fork
         pthread_mutex_lock(tab->fork_right);
-        print_philo(tab->ptr, tab->number, 1);
+        print_philo(tab->ptr, tab->number, 1); // right fork
         if (check_is_died(tab->ptr) != 0)
         {
             pthread_mutex_unlock(tab->fork_left);
             pthread_mutex_unlock(tab->fork_right);
             break;
         }
-        print_philo(tab->ptr, tab->number, 3);
+        print_philo(tab->ptr, tab->number, 3); // is eating 
         pthread_mutex_lock(tab->ptr->fork_last_meal);
         tab->time_since_last_meal = get_time_ms(); //fonction pour ramener un temps en micro secondes
         pthread_mutex_unlock(tab->ptr->fork_last_meal);
@@ -96,11 +94,11 @@ void    *odd_thread(t_tab_of_thread *tab)
         pthread_mutex_lock(tab->ptr->mutex_meal);
         tab->number_of_eat += 1;
         pthread_mutex_unlock(tab->ptr->mutex_meal);
-        print_philo(tab->ptr, tab->number, 4);
+        print_philo(tab->ptr, tab->number, 4); // is sleeping
         if (check_is_died(tab->ptr) != 0)
             break;
         usleep(tab->ptr->time_to_sleep * 1000);
-        print_philo(tab->ptr, tab->number, 5);
+        print_philo(tab->ptr, tab->number, 5); // is thinking
         if (check_is_died(tab->ptr) != 0)
             break;
         usleep(tab->ptr->time_to_eat * 1000);
@@ -116,16 +114,16 @@ void *last_odd_thread(t_tab_of_thread *tab)
         if (check_is_died(tab->ptr) != 0)
             break;
         pthread_mutex_lock(tab->fork_right);
-        print_philo(tab->ptr, tab->number, 1);
+        print_philo(tab->ptr, tab->number, 1); // right fork
         pthread_mutex_lock(tab->fork_left);
-        print_philo(tab->ptr, tab->number, 2);
+        print_philo(tab->ptr, tab->number, 2); // left fork
         if (check_is_died(tab->ptr) != 0)
         {
             pthread_mutex_unlock(tab->fork_right);
             pthread_mutex_unlock(tab->fork_left);
             break;
         }
-        print_philo(tab->ptr, tab->number, 3);
+        print_philo(tab->ptr, tab->number, 3); // is eating
         pthread_mutex_lock(tab->ptr->fork_last_meal);
         tab->time_since_last_meal = get_time_ms(); //fonction pour ramener un temps en micro secondes
         pthread_mutex_unlock(tab->ptr->fork_last_meal);
@@ -135,11 +133,11 @@ void *last_odd_thread(t_tab_of_thread *tab)
         pthread_mutex_lock(tab->ptr->mutex_meal);
         tab->number_of_eat += 1;
         pthread_mutex_unlock(tab->ptr->mutex_meal);
-        print_philo(tab->ptr, tab->number, 4);
+        print_philo(tab->ptr, tab->number, 4); // is sleeping
         if (check_is_died(tab->ptr) != 0)
             break;
         usleep(tab->ptr->time_to_sleep * 1000);
-        print_philo(tab->ptr, tab->number, 5);
+        print_philo(tab->ptr, tab->number, 5); // is thinking
         if (check_is_died(tab->ptr) != 0)
             break;
     }
