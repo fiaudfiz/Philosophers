@@ -6,7 +6,7 @@
 /*   By: miouali <miouali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 13:23:01 by miouali           #+#    #+#             */
-/*   Updated: 2026/04/28 18:37:23 by miouali          ###   ########.fr       */
+/*   Updated: 2026/04/29 12:30:14 by miouali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,11 @@ void *even_thread(t_tab_of_thread *tab)
         print_philo(tab->ptr, tab->number, 5); //is thinking
         if (check_is_died(tab->ptr) != 0)
             break;
+        usleep(tab->ptr->time_to_eat * 1000);
+        if (check_is_died(tab->ptr) != 0)
+            break;
         pthread_mutex_lock(tab->fork_right);
         print_philo(tab->ptr, tab->number, 1); //right fork
-        if (check_is_died(tab->ptr) != 0)
-        {
-            pthread_mutex_unlock(tab->fork_right);
-            break;
-        }
         pthread_mutex_lock(tab->fork_left);
         print_philo(tab->ptr, tab->number, 2); //left fork
         if (check_is_died(tab->ptr) != 0)
@@ -63,7 +61,6 @@ void *even_thread(t_tab_of_thread *tab)
         if (check_is_died(tab->ptr) != 0)    
             break;          
         usleep(tab->ptr->time_to_sleep * 1000);
-        usleep(tab->ptr->time_to_eat * 1000);
     }
     return (NULL);
 }
@@ -110,6 +107,9 @@ void *last_odd_thread(t_tab_of_thread *tab)
 {
     while (check_is_died(tab->ptr) == 0)
     {
+        print_philo(tab->ptr, tab->number, 5); // is thinking
+        if (check_is_died(tab->ptr) != 0)
+            break;
         usleep(tab->ptr->time_to_eat * 1000);
         if (check_is_died(tab->ptr) != 0)
             break;
@@ -137,9 +137,6 @@ void *last_odd_thread(t_tab_of_thread *tab)
         if (check_is_died(tab->ptr) != 0)
             break;
         usleep(tab->ptr->time_to_sleep * 1000);
-        print_philo(tab->ptr, tab->number, 5); // is thinking
-        if (check_is_died(tab->ptr) != 0)
-            break;
     }
     return (NULL);
 }
