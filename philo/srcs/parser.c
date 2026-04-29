@@ -6,43 +6,45 @@
 /*   By: miouali <miouali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 11:05:00 by miouali           #+#    #+#             */
-/*   Updated: 2026/04/27 19:02:18 by miouali          ###   ########.fr       */
+/*   Updated: 2026/04/29 15:11:24 by miouali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-#include "limits.h"
+#include <limits.h>
 
-int     check_digits(int ac, char **av)
+int	check_digits(int ac, char **av)
 {
-    int     i = 0;
-    int     j = 0;
-    while (i < ac - 1)
-    {
-        j = 0;
-        while (av[i][j])
-        {
-            if (av[i][j] < '0' && av[i][j] > '9')
-                return (1);
-            j++;
-        }
-        i++;
-    }
-    return (0);
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	while (i < ac - 1)
+	{
+		j = 0;
+		while (av[i][j])
+		{
+			if (av[i][j] < '0' && av[i][j] > '9')
+				return (1);
+			j++;
+		}
+		i++;
+	}
+	return (0);
 }
 
-
-int parse_args(int ac, char **av, t_global_struct *global)
+int	parse_args(int ac, char **av, t_global_struct *global)
 {
-    if (check_digits(ac, av) != 0)
-        return (1);
-    global->number_of_philo = atoi(av[1]);
-    global->time_to_die = atoi(av[2]);
-    global->time_to_eat = atoi(av[3]);
-    global->time_to_sleep = atoi(av[4]);
-    if (av[5] != NULL)
-        global->max_eat = atoi(av[5]);
-    else
-        global->max_eat = -1;
-    return (0);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+	if (check_digits(ac, av) != 0)
+		return (1);
+	global->number_of_philo = atoi(av[1]);
+	global->time_to_die = atoi(av[2]);
+	global->time_to_eat = atoi(av[3]);
+	global->time_to_sleep = atoi(av[4]);
+	if (av[5] != NULL)
+		global->max_eat = atoi(av[5]);
+	else
+		global->max_eat = -1;
+	return (0);
 }
