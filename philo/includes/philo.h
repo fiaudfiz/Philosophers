@@ -6,7 +6,7 @@
 /*   By: miouali <miouali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 11:05:13 by miouali           #+#    #+#             */
-/*   Updated: 2026/04/30 11:40:58 by miouali          ###   ########.fr       */
+/*   Updated: 2026/04/30 12:34:57 by miouali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ typedef struct s_tab_of_thread
 	pthread_mutex_t			*fork_right;
 	struct s_global_struct	*ptr;
 	int						number;
-
+	char 					padding[8];
 }	t_tab_of_thread;
 
 typedef struct s_global_struct
@@ -42,9 +42,9 @@ typedef struct s_global_struct
 	t_tab_of_thread	*tab;
 	int				number_of_philo;
 	pthread_mutex_t	*fork;
-	pthread_mutex_t	*fork_print;
-	pthread_mutex_t	*fork_last_meal;
-	pthread_mutex_t	*fork_is_died;
+	pthread_mutex_t	*mutex_print;
+	pthread_mutex_t	*mutex_last_meal;
+	pthread_mutex_t	*mutex_is_died;
 	pthread_mutex_t	*mutex_meal;
 }t_global_struct;
 
