@@ -6,7 +6,7 @@
 /*   By: miouali <miouali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 11:04:49 by miouali           #+#    #+#             */
-/*   Updated: 2026/04/29 15:49:38 by miouali          ###   ########.fr       */
+/*   Updated: 2026/04/30 11:47:22 by miouali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,8 @@ void	init_variables(t_global_struct *global, t_tab_of_thread *tab)
 	{
 		if (i % 2 != 0)
 		{
-			if (pthread_create(&global->tab[i].tid, NULL, routine_thread, &global->tab[i]) != 0)
+			if (pthread_create(&global->tab[i].tid, NULL
+					, routine_thread, &global->tab[i]) != 0)
 				exit_philo(global);
 		}
 		i++;
@@ -69,7 +70,8 @@ void	init_variables(t_global_struct *global, t_tab_of_thread *tab)
 	{
 		if (i % 2 == 0)
 		{
-			if (pthread_create(&global->tab[i].tid, NULL, routine_thread, &global->tab[i]) != 0)
+			if (pthread_create(&global->tab[i].tid, NULL
+					, routine_thread, &global->tab[i]) != 0)
 				exit_philo(global);
 		}
 		i++;
@@ -86,7 +88,6 @@ long	get_time_ms(void)
 	return (time);
 }
 
-
 void	print_philo(t_global_struct *global, int number, int mode)
 {
 	pthread_mutex_lock(global->fork_print);
@@ -96,15 +97,20 @@ void	print_philo(t_global_struct *global, int number, int mode)
 		return ;
 	}
 	if (mode == 1)
-		printf ("%ld    %d has taken right fork\n", get_time_ms() - global->start, number);
+		printf ("%ld    %d has taken right fork\n", get_time_ms()
+			- global->start, number);
 	else if (mode == 2)
-		printf ("%ld    %d has taken left fork\n", get_time_ms() - global->start, number);
+		printf ("%ld    %d has taken left fork\n", get_time_ms()
+			- global->start, number);
 	else if (mode == 3)
-		printf ("%ld    %d is eating : number of eat = %ld\n", get_time_ms() - global->start, number, global->tab[number].number_of_eat);
+		printf ("%ld    %d is eating : number of eat = %ld\n", get_time_ms()
+			- global->start, number, global->tab[number].number_of_eat);
 	else if (mode == 4)
-		printf ("%ld    %d is sleeping\n", get_time_ms() - global->start, number);
+		printf ("%ld    %d is sleeping\n", get_time_ms()
+			- global->start, number);
 	else if (mode == 5)
-		printf ("%ld    %d is thinking\n", get_time_ms() - global->start, number);
+		printf ("%ld    %d is thinking\n", get_time_ms()
+			- global->start, number);
 	pthread_mutex_unlock(global->fork_print);
 }
 

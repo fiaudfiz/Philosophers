@@ -6,7 +6,7 @@
 /*   By: miouali <miouali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 11:05:13 by miouali           #+#    #+#             */
-/*   Updated: 2026/04/29 15:05:14 by miouali          ###   ########.fr       */
+/*   Updated: 2026/04/30 11:40:58 by miouali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ typedef struct s_global_struct
 	pthread_mutex_t	*fork_print;
 	pthread_mutex_t	*fork_last_meal;
 	pthread_mutex_t	*fork_is_died;
-	pthread_mutex_t	mutex_meal;
+	pthread_mutex_t	*mutex_meal;
 }t_global_struct;
 
 void	prog_usage(void);

@@ -6,7 +6,7 @@
 /*   By: miouali <miouali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 13:23:01 by miouali           #+#    #+#             */
-/*   Updated: 2026/04/29 15:58:54 by miouali          ###   ########.fr       */
+/*   Updated: 2026/04/30 11:48:23 by miouali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@ void	*routine_thread(void *arg)
 
 	tab = (t_tab_of_thread *)arg;
 	tab->tid = pthread_self();
-	if ((tab->ptr->number_of_philo % 2 != 0) && (tab->number == tab->ptr->number_of_philo))
+	if ((tab->ptr->number_of_philo % 2 != 0)
+		&& (tab->number == tab->ptr->number_of_philo))
 		last_odd_thread(tab);
 	else if (tab->number % 2 != 0)
 		odd_thread(tab);
