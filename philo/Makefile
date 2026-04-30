@@ -6,7 +6,7 @@
 #    By: miouali <miouali@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/04/07 11:04:43 by miouali           #+#    #+#              #
-#    Updated: 2026/04/23 12:03:10 by miouali          ###   ########.fr        #
+#    Updated: 2026/04/30 11:52:12 by miouali          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -128,6 +128,7 @@ clean:
 
 fclean: clean
 		$(RM) $(NAME)
+		$(RM) .temp_err
 		@printf "$(PURPLE) $(NAME) deleted!$(DEF_COLOR)\n"
 
 re: fclean all
