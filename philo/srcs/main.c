@@ -6,7 +6,7 @@
 /*   By: miouali <miouali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 11:05:04 by miouali           #+#    #+#             */
-/*   Updated: 2026/04/30 11:44:06 by miouali          ###   ########.fr       */
+/*   Updated: 2026/04/30 12:33:52 by miouali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,9 @@ int	main(int ac, char **av)
 		exit_philo(global);
 		return (1);
 	}
-	global->fork_print = malloc(sizeof(pthread_mutex_t));
-	global->fork_last_meal = malloc(sizeof(pthread_mutex_t));
-	global->fork_is_died = malloc(sizeof (pthread_mutex_t));
+	global->mutex_print = malloc(sizeof(pthread_mutex_t));
+	global->mutex_last_meal = malloc(sizeof(pthread_mutex_t));
+	global->mutex_is_died = malloc(sizeof (pthread_mutex_t));
 	if (global->max_eat != 0)
 		global->mutex_meal = malloc(sizeof(pthread_mutex_t));
 	init_variables(global, global->tab);

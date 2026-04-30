@@ -6,7 +6,7 @@
 /*   By: miouali <miouali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 11:04:49 by miouali           #+#    #+#             */
-/*   Updated: 2026/04/30 11:47:22 by miouali          ###   ########.fr       */
+/*   Updated: 2026/04/30 12:27:08 by miouali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,11 @@ void	init_variables(t_global_struct *global, t_tab_of_thread *tab)
 			exit_philo(global);
 		i++;
 	}
-	if (pthread_mutex_init(global->fork_print, NULL) != 0)
+	if (pthread_mutex_init(global->mutex_print, NULL) != 0)
 		exit_philo(global);
-	if (pthread_mutex_init(global->fork_last_meal, NULL) != 0)
+	if (pthread_mutex_init(global->mutex_last_meal, NULL) != 0)
 		exit_philo(global);
-	if (pthread_mutex_init(global->fork_is_died, NULL) != 0)
+	if (pthread_mutex_init(global->mutex_is_died, NULL) != 0)
 		exit_philo(global);
 	if (global->max_eat != 0)
 	{
@@ -90,10 +90,10 @@ long	get_time_ms(void)
 
 void	print_philo(t_global_struct *global, int number, int mode)
 {
-	pthread_mutex_lock(global->fork_print);
+	pthread_mutex_lock(global->mutex_print);
 	if (check_is_died(global) == 1)
 	{
-		pthread_mutex_unlock(global->fork_print);
+		pthread_mutex_unlock(global->mutex_print);
 		return ;
 	}
 	if (mode == 1)
@@ -111,27 +111,27 @@ void	print_philo(t_global_struct *global, int number, int mode)
 	else if (mode == 5)
 		printf ("%ld    %d is thinking\n", get_time_ms()
 			- global->start, number);
-	pthread_mutex_unlock(global->fork_print);
+	pthread_mutex_unlock(global->mutex_print);
 }
 
 int	check_is_died(t_global_struct *global)
 {
-	pthread_mutex_lock(global->fork_is_died);
+	pthread_mutex_lock(global->mutex_is_died);
 	if (global->is_died == 1)
 	{
-		pthread_mutex_unlock(global->fork_is_died);
+		pthread_mutex_unlock(global->mutex_is_died);
 		return (1);
 	}
-	pthread_mutex_unlock(global->fork_is_died);
+	pthread_mutex_unlock(global->mutex_is_died);
 	return (0);
 }
 
 void	eat_philo(t_tab_of_thread *tab)
 {
 	print_philo(tab->ptr, tab->number, 3);
-	pthread_mutex_lock(tab->ptr->fork_last_meal);
+	pthread_mutex_lock(tab->ptr->mutex_last_meal);
 	tab->time_since_last_meal = get_time_ms();
-	pthread_mutex_unlock(tab->ptr->fork_last_meal);
+	pthread_mutex_unlock(tab->ptr->mutex_last_meal);
 	usleep(tab->ptr->time_to_eat * 1000);
 	pthread_mutex_unlock(tab->fork_left);
 	pthread_mutex_unlock(tab->fork_right);

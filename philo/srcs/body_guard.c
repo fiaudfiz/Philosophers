@@ -6,7 +6,7 @@
 /*   By: miouali <miouali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 11:28:27 by miouali           #+#    #+#             */
-/*   Updated: 2026/04/30 11:50:47 by miouali          ###   ########.fr       */
+/*   Updated: 2026/04/30 12:27:08 by miouali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,20 +22,20 @@ void	*routine_body_guard(void *arg)
 	i = 1;
 	while (i <= global->number_of_philo && check_is_died(global) == 0)
 	{
-		pthread_mutex_lock(global->fork_last_meal);
+		pthread_mutex_lock(global->mutex_last_meal);
 		if (get_time_ms() - global->tab[i].time_since_last_meal
 			> global->time_to_die)
 		{
-			pthread_mutex_lock(global->fork_is_died);
+			pthread_mutex_lock(global->mutex_is_died);
 			global->is_died = 1;
-			pthread_mutex_unlock(global->fork_is_died);
-			pthread_mutex_lock(global->fork_print);
+			pthread_mutex_unlock(global->mutex_is_died);
+			pthread_mutex_lock(global->mutex_print);
 			printf("%ld     %d is died\n", get_time_ms()
 				- global->start, global->tab[i].number);
-			pthread_mutex_unlock(global->fork_print);
+			pthread_mutex_unlock(global->mutex_print);
 			break ;
 		}
-		pthread_mutex_unlock(global->fork_last_meal);
+		pthread_mutex_unlock(global->mutex_last_meal);
 		pthread_mutex_lock(global->mutex_meal);
 		if (global->max_eat != -1)
 		{
@@ -49,13 +49,13 @@ void	*routine_body_guard(void *arg)
 			}
 			if (j == global->number_of_philo)
 			{
-				pthread_mutex_lock(global->fork_is_died);
+				pthread_mutex_lock(global->mutex_is_died);
 				global->is_died = 1;
-				pthread_mutex_unlock(global->fork_is_died);
-				pthread_mutex_lock(global->fork_print);
+				pthread_mutex_unlock(global->mutex_is_died);
+				pthread_mutex_lock(global->mutex_print);
 				printf("%ld     %d nombre max de repas\n", get_time_ms()
 					- global->start, global->tab[i].number);
-				pthread_mutex_unlock(global->fork_print);
+				pthread_mutex_unlock(global->mutex_print);
 				pthread_mutex_unlock(global->mutex_meal);
 				break ;
 			}
