@@ -6,7 +6,7 @@
 /*   By: miouali <miouali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 11:28:27 by miouali           #+#    #+#             */
-/*   Updated: 2026/04/30 12:27:08 by miouali          ###   ########.fr       */
+/*   Updated: 2026/05/04 11:55:17 by miouali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,14 +40,17 @@ void	*routine_body_guard(void *arg)
 		if (global->max_eat != -1)
 		{
 			j = 1;
-			while (j < global->number_of_philo)
+			while (j <= global->number_of_philo)
 			{
 				if (global->tab[j].number_of_eat >= global->max_eat)
 					j++;
 				else
+				{
+					pthread_mutex_unlock(global->mutex_meal);
 					break ;
+				}
 			}
-			if (j == global->number_of_philo)
+			if (j > global->number_of_philo)
 			{
 				pthread_mutex_lock(global->mutex_is_died);
 				global->is_died = 1;
