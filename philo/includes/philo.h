@@ -6,7 +6,7 @@
 /*   By: miouali <miouali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 11:05:13 by miouali           #+#    #+#             */
-/*   Updated: 2026/05/04 11:20:58 by miouali          ###   ########.fr       */
+/*   Updated: 2026/05/04 13:26:05 by miouali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,5 +62,6 @@ void	*even_thread(t_tab_of_thread *tab);
 void	*odd_thread(t_tab_of_thread *tab);
 void	*last_odd_thread(t_tab_of_thread *tab);
 void	eat_philo(t_tab_of_thread *tab);
+int     alloc_ressources(t_global_struct *global);
 
 #endif
