@@ -6,7 +6,7 @@
 /*   By: miouali <miouali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 11:04:49 by miouali           #+#    #+#             */
-/*   Updated: 2026/04/30 12:27:08 by miouali          ###   ########.fr       */
+/*   Updated: 2026/05/04 11:22:59 by miouali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,10 @@ void	init_variables(t_global_struct *global, t_tab_of_thread *tab)
 
 	i = 1;
 	global->is_died = 0;
+	if (global->number_of_philo % 2 != 0)
+		global->time_2e_sleep = global->time_to_sleep * 1000;
+	else
+		global->time_2e_sleep = 1000;
 	while (i <= global->number_of_philo)
 	{
 		if (pthread_mutex_init(&global->fork[i], NULL) != 0)
