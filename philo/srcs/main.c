@@ -6,7 +6,7 @@
 /*   By: miouali <miouali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 11:05:04 by miouali           #+#    #+#             */
-/*   Updated: 2026/05/04 09:48:42 by miouali          ###   ########.fr       */
+/*   Updated: 2026/05/04 13:26:35 by miouali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,25 @@ int	main(int ac, char **av)
 	}
 	if (parse_args(ac, av, global) != 0)
 		return (write(2, "Error\n", 6));
+	if (alloc_ressources(global) != 0)
+	{
+		exit_philo(global);
+		return (1);
+	}
+	
+	
+	
+	
+	
+	
+	/*
+	//init
+	global = malloc(sizeof(t_global_struct));
+	if (!global)
+	{
+		exit_philo(global);
+		return (1);
+	}
 	global->tab = malloc(sizeof(t_tab_of_thread)
 			* (global->number_of_philo + 1));
 	if (!global->tab)
@@ -40,12 +59,17 @@ int	main(int ac, char **av)
 		exit_philo(global);
 		return (1);
 	}
+	//init en mode on dit si la fonction renvoie 1 on quitte tout
+	*/
+
+	//init vriables
 	i = 1;
 	while (i <= global->number_of_philo)
 	{
 		global->tab[i].number = i;
 		i++;
 	}
+	/*//malloc
 	global->fork = malloc(sizeof(pthread_mutex_t)
 			* (global->number_of_philo + 1));
 	if (!global->fork)
@@ -53,11 +77,14 @@ int	main(int ac, char **av)
 		exit_philo(global);
 		return (1);
 	}
-	global->mutex_print = malloc(sizeof(pthread_mutex_t));
-	global->mutex_last_meal = malloc(sizeof(pthread_mutex_t));
-	global->mutex_is_died = malloc(sizeof (pthread_mutex_t));
+	global->mutex_print = malloc(sizeof(pthread_mutex_t)); //malloc non protege 
+	global->mutex_last_meal = malloc(sizeof(pthread_mutex_t)); //malloc non protege
+	global->mutex_is_died = malloc(sizeof (pthread_mutex_t)); //malloc non protege
 	if (global->max_eat != 0)
-		global->mutex_meal = malloc(sizeof(pthread_mutex_t));
+		global->mutex_meal = malloc(sizeof(pthread_mutex_t)); //malloc non protege
+	//malloc*/
+
+	
 	init_variables(global, global->tab);
 	pthread_create(&tid, NULL, routine_body_guard, global);
 	i = 1;

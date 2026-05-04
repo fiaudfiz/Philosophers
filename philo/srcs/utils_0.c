@@ -6,7 +6,7 @@
 /*   By: miouali <miouali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 11:04:49 by miouali           #+#    #+#             */
-/*   Updated: 2026/05/04 11:22:59 by miouali          ###   ########.fr       */
+/*   Updated: 2026/05/04 13:52:14 by miouali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,8 @@ void	init_variables(t_global_struct *global, t_tab_of_thread *tab)
 		exit_philo(global);
 	if (pthread_mutex_init(global->mutex_is_died, NULL) != 0)
 		exit_philo(global);
-	if (global->max_eat != 0)
-	{
-		if (pthread_mutex_init(global->mutex_meal, NULL) != 0)
-			exit_philo(global);
-	}
+	if (pthread_mutex_init(global->mutex_meal, NULL) != 0)
+		exit_philo(global);
 	i = 1;
 	if (!tab || !global->fork)
 	{
