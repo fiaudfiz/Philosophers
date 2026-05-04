@@ -6,7 +6,7 @@
 #    By: miouali <miouali@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/04/07 11:04:43 by miouali           #+#    #+#              #
-#    Updated: 2026/04/30 11:52:12 by miouali          ###   ########.fr        #
+#    Updated: 2026/05/04 12:34:56 by miouali          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,7 +40,7 @@ SRCS_DIR = srcs/
 OBJS_DIR = objs/
 HEADER_DIR = includes/
 
-SRCS_PHILO = main.c prog_usage.c parser.c routine.c body_guard.c exit.c utils_0.c
+SRCS_PHILO = main.c prog_usage.c parser.c routine.c body_guard.c exit.c utils_0.c utils_1.c
 
 ALL_SRCS = $(addprefix $(SRCS_DIR), $(SRCS_PHILO))
 
