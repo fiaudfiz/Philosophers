@@ -20,12 +20,12 @@ void	*routine_thread(void *arg)
 	tab->tid = pthread_self();
 	if (tab->ptr->number_of_philo == 1)
 	{
-    	pthread_mutex_lock(tab->fork_left);
-    	print_philo(tab->ptr, tab->number, 2);
-    	while (check_is_died(tab->ptr) == 0)
-        	usleep(1000);
-    	pthread_mutex_unlock(tab->fork_left);
-    	return (NULL);
+		pthread_mutex_lock(tab->fork_left);
+		print_philo(tab->ptr, tab->number, 2);
+		while (check_is_died(tab->ptr) == 0)
+			usleep(1000);
+		pthread_mutex_unlock(tab->fork_left);
+		return (NULL);
 	}
 	else if ((tab->ptr->number_of_philo % 2 != 0)
 		&& (tab->number == tab->ptr->number_of_philo))

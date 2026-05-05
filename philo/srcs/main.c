@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miouali <miouali@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fiaudfiz <fiaudfiz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 11:05:04 by miouali           #+#    #+#             */
-/*   Updated: 2026/05/04 13:26:35 by miouali          ###   ########.fr       */
+/*   Updated: 2026/05/05 15:58:40 by fiaudfiz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,6 @@
 int	main(int ac, char **av)
 {
 	t_global_struct	*global;
-	int				i;
-	pthread_t		tid;
 
 	if (ac != 5 && ac != 6)
 	{
@@ -27,10 +25,7 @@ int	main(int ac, char **av)
 	}
 	global = malloc(sizeof(t_global_struct));
 	if (!global)
-	{
-		exit_philo(global);
 		return (1);
-	}
 	if (parse_args(ac, av, global) != 0)
 		return (write(2, "Error\n", 6));
 	if (alloc_ressources(global) != 0)
@@ -38,62 +33,12 @@ int	main(int ac, char **av)
 		exit_philo(global);
 		return (1);
 	}
-	
-	
-	
-	
-	
-	
-	/*
-	//init
-	global = malloc(sizeof(t_global_struct));
-	if (!global)
-	{
-		exit_philo(global);
-		return (1);
-	}
-	global->tab = malloc(sizeof(t_tab_of_thread)
-			* (global->number_of_philo + 1));
-	if (!global->tab)
-	{
-		exit_philo(global);
-		return (1);
-	}
-	//init en mode on dit si la fonction renvoie 1 on quitte tout
-	*/
-
-	//init vriables
-	i = 1;
-	while (i <= global->number_of_philo)
-	{
-		global->tab[i].number = i;
-		i++;
-	}
-	/*//malloc
-	global->fork = malloc(sizeof(pthread_mutex_t)
-			* (global->number_of_philo + 1));
-	if (!global->fork)
-	{
-		exit_philo(global);
-		return (1);
-	}
-	global->mutex_print = malloc(sizeof(pthread_mutex_t)); //malloc non protege 
-	global->mutex_last_meal = malloc(sizeof(pthread_mutex_t)); //malloc non protege
-	global->mutex_is_died = malloc(sizeof (pthread_mutex_t)); //malloc non protege
-	if (global->max_eat != 0)
-		global->mutex_meal = malloc(sizeof(pthread_mutex_t)); //malloc non protege
-	//malloc*/
-
-	
 	init_variables(global, global->tab);
-	pthread_create(&tid, NULL, routine_body_guard, global);
-	i = 1;
-	while (i <= global->number_of_philo)
+	if (start_philos(global) != 0)
 	{
-		pthread_join(global->tab[i].tid, NULL);
-		i++;
+		join_and_quit(global);
+		return (1);
 	}
-	pthread_join(tid, NULL);
-	exit_philo(global);
+	join_and_quit(global);
 	return (0);
 }

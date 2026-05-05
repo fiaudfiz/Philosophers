@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miouali <miouali@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fiaudfiz <fiaudfiz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 11:05:13 by miouali           #+#    #+#             */
-/*   Updated: 2026/05/04 13:26:05 by miouali          ###   ########.fr       */
+/*   Updated: 2026/05/05 17:50:57 by fiaudfiz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,11 @@ typedef struct s_global_struct
 	pthread_mutex_t	*mutex_last_meal;
 	pthread_mutex_t	*mutex_is_died;
 	pthread_mutex_t	*mutex_meal;
+	pthread_t		tid_body_guard;
 }	t_global_struct;
 
 void	prog_usage(void);
-void	init_variables(t_global_struct *global, t_tab_of_thread *tab);
+int		init_variables(t_global_struct *global, t_tab_of_thread *tab);
 long	get_time_ms(void);
 void	*routine_thread(void *arg);
 void	exit_philo(t_global_struct *global);
@@ -62,6 +63,10 @@ void	*even_thread(t_tab_of_thread *tab);
 void	*odd_thread(t_tab_of_thread *tab);
 void	*last_odd_thread(t_tab_of_thread *tab);
 void	eat_philo(t_tab_of_thread *tab);
-int     alloc_ressources(t_global_struct *global);
+int		alloc_ressources(t_global_struct *global);
+int		init_mutex(t_global_struct *global);
+int		set_variables_tab(t_global_struct *global, t_tab_of_thread *tab);
+int		start_philos(t_global_struct *global);
+void	join_and_quit(t_global_struct *global);
 
 #endif

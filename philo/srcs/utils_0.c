@@ -3,80 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   utils_0.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miouali <miouali@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fiaudfiz <fiaudfiz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 11:04:49 by miouali           #+#    #+#             */
-/*   Updated: 2026/05/04 13:52:14 by miouali          ###   ########.fr       */
+/*   Updated: 2026/05/05 17:48:33 by fiaudfiz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	init_variables(t_global_struct *global, t_tab_of_thread *tab)
+int	init_variables(t_global_struct *global, t_tab_of_thread *tab)
 {
-	int	i;
-
-	i = 1;
 	global->is_died = 0;
 	if (global->number_of_philo % 2 != 0)
 		global->time_2e_sleep = global->time_to_sleep * 1000;
 	else
 		global->time_2e_sleep = 1000;
-	while (i <= global->number_of_philo)
-	{
-		if (pthread_mutex_init(&global->fork[i], NULL) != 0)
-			exit_philo(global);
-		i++;
-	}
-	if (pthread_mutex_init(global->mutex_print, NULL) != 0)
-		exit_philo(global);
-	if (pthread_mutex_init(global->mutex_last_meal, NULL) != 0)
-		exit_philo(global);
-	if (pthread_mutex_init(global->mutex_is_died, NULL) != 0)
-		exit_philo(global);
-	if (pthread_mutex_init(global->mutex_meal, NULL) != 0)
-		exit_philo(global);
-	i = 1;
-	if (!tab || !global->fork)
-	{
-		printf("error\n");
-		exit_philo(global);
-	}
-	while (i <= global->number_of_philo)
-	{
-		tab[i].time_since_last_meal = get_time_ms();
-		tab[i].number_of_eat = 0;
-		tab[i].fork_left = &global->fork[i];
-		if (i == global->number_of_philo)
-			tab[i].fork_right = &global->fork[1];
-		else
-			tab[i].fork_right = &global->fork[i + 1];
-		tab[i].ptr = global;
-		i++;
-	}
-	i = 1;
-	global->start = get_time_ms();
-	while (i <= global->number_of_philo)
-	{
-		if (i % 2 != 0)
-		{
-			if (pthread_create(&global->tab[i].tid, NULL
-					, routine_thread, &global->tab[i]) != 0)
-				exit_philo(global);
-		}
-		i++;
-	}
-	i = 1;
-	while (i <= global->number_of_philo)
-	{
-		if (i % 2 == 0)
-		{
-			if (pthread_create(&global->tab[i].tid, NULL
-					, routine_thread, &global->tab[i]) != 0)
-				exit_philo(global);
-		}
-		i++;
-	}
+	if (init_mutex(global) != 0)
+		return (1);
+	if (set_variables_tab(global, tab) != 0)
+		return (1);
+	return (0);
 }
 
 long	get_time_ms(void)
@@ -112,6 +59,9 @@ void	print_philo(t_global_struct *global, int number, int mode)
 	else if (mode == 5)
 		printf ("%ld    %d is thinking\n", get_time_ms()
 			- global->start, number);
+	else if (mode == 6)
+		printf("%ld     %d nombre max de repas\n", get_time_ms()
+			- global->start, global->tab[number].number);
 	pthread_mutex_unlock(global->mutex_print);
 }
 
