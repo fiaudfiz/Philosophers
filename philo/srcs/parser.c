@@ -6,7 +6,7 @@
 /*   By: fiaudfiz <fiaudfiz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 11:05:00 by miouali           #+#    #+#             */
-/*   Updated: 2026/07/25 19:30:01 by fiaudfiz         ###   ########.fr       */
+/*   Updated: 2026/07/25 19:42:58 by fiaudfiz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,14 +45,13 @@ int	check_digits(int ac, char **av)
 	int	i;
 	int	j;
 
-	i = 0;
-	j = 0;
-	while (i < ac - 1)
+	i = 1;
+	while (i < ac)
 	{
 		j = 0;
 		while (av[i][j])
 		{
-			if (av[i][j] < '0' && av[i][j] > '9')
+			if (av[i][j] < '0' || av[i][j] > '9')
 				return (1);
 			j++;
 		}
