@@ -6,7 +6,7 @@
 /*   By: fiaudfiz <fiaudfiz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 11:28:27 by miouali           #+#    #+#             */
-/*   Updated: 2026/05/05 17:54:51 by fiaudfiz         ###   ########.fr       */
+/*   Updated: 2026/07/25 19:11:30 by fiaudfiz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static int	check_all_philo_max_eat(t_global_struct *global, int i)
 		if (j > global->number_of_philo)
 		{
 			set_philo_death(global);
-			print_philo(global, i, 6);
+			print_philo(global, i, 5);
 			pthread_mutex_unlock(global->mutex_meal);
 			return (1);
 		}

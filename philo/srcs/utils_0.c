@@ -6,7 +6,7 @@
 /*   By: fiaudfiz <fiaudfiz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 11:04:49 by miouali           #+#    #+#             */
-/*   Updated: 2026/05/05 17:48:33 by fiaudfiz         ###   ########.fr       */
+/*   Updated: 2026/07/25 19:15:07 by fiaudfiz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,21 +45,18 @@ void	print_philo(t_global_struct *global, int number, int mode)
 		return ;
 	}
 	if (mode == 1)
-		printf ("%ld    %d has taken right fork\n", get_time_ms()
+		printf ("%ld    %d has taken a fork\n", get_time_ms()
 			- global->start, number);
 	else if (mode == 2)
-		printf ("%ld    %d has taken left fork\n", get_time_ms()
+		printf ("%ld    %d is eating\n", get_time_ms()
 			- global->start, number);
 	else if (mode == 3)
-		printf ("%ld    %d is eating : number of eat = %ld\n", get_time_ms()
-			- global->start, number, global->tab[number].number_of_eat);
-	else if (mode == 4)
 		printf ("%ld    %d is sleeping\n", get_time_ms()
 			- global->start, number);
-	else if (mode == 5)
+	else if (mode == 4)
 		printf ("%ld    %d is thinking\n", get_time_ms()
 			- global->start, number);
-	else if (mode == 6)
+	else if (mode == 5)
 		printf("%ld     %d nombre max de repas\n", get_time_ms()
 			- global->start, global->tab[number].number);
 	pthread_mutex_unlock(global->mutex_print);
@@ -79,7 +76,7 @@ int	check_is_died(t_global_struct *global)
 
 void	eat_philo(t_tab_of_thread *tab)
 {
-	print_philo(tab->ptr, tab->number, 3);
+	print_philo(tab->ptr, tab->number, 2);
 	pthread_mutex_lock(tab->ptr->mutex_last_meal);
 	tab->time_since_last_meal = get_time_ms();
 	pthread_mutex_unlock(tab->ptr->mutex_last_meal);

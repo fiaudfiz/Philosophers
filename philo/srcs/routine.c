@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   routine.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miouali <miouali@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fiaudfiz <fiaudfiz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 13:23:01 by miouali           #+#    #+#             */
-/*   Updated: 2026/05/04 13:47:28 by miouali          ###   ########.fr       */
+/*   Updated: 2026/07/25 19:12:51 by fiaudfiz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	*routine_thread(void *arg)
 	if (tab->ptr->number_of_philo == 1)
 	{
 		pthread_mutex_lock(tab->fork_left);
-		print_philo(tab->ptr, tab->number, 2);
+		print_philo(tab->ptr, tab->number, 1);
 		while (check_is_died(tab->ptr) == 0)
 			usleep(1000);
 		pthread_mutex_unlock(tab->fork_left);
@@ -41,7 +41,7 @@ void	*even_thread(t_tab_of_thread *tab)
 {
 	while (check_is_died(tab->ptr) == 0)
 	{
-		print_philo(tab->ptr, tab->number, 5);
+		print_philo(tab->ptr, tab->number, 4);
 		if (check_is_died(tab->ptr) != 0)
 			break ;
 		usleep(tab->ptr->time_to_eat * 1000);
@@ -50,7 +50,7 @@ void	*even_thread(t_tab_of_thread *tab)
 		pthread_mutex_lock(tab->fork_right);
 		print_philo(tab->ptr, tab->number, 1);
 		pthread_mutex_lock(tab->fork_left);
-		print_philo(tab->ptr, tab->number, 2);
+		print_philo(tab->ptr, tab->number, 1);
 		if (check_is_died(tab->ptr) != 0)
 		{
 			pthread_mutex_unlock(tab->fork_right);
@@ -58,7 +58,7 @@ void	*even_thread(t_tab_of_thread *tab)
 			break ;
 		}
 		eat_philo(tab);
-		print_philo(tab->ptr, tab->number, 4);
+		print_philo(tab->ptr, tab->number, 3);
 		if (check_is_died(tab->ptr) != 0)
 			break ;
 		usleep(tab->ptr->time_2e_sleep);
@@ -73,7 +73,7 @@ void	*odd_thread(t_tab_of_thread *tab)
 		if (check_is_died(tab->ptr) != 0)
 			break ;
 		pthread_mutex_lock(tab->fork_left);
-		print_philo(tab->ptr, tab->number, 2);
+		print_philo(tab->ptr, tab->number, 1);
 		pthread_mutex_lock(tab->fork_right);
 		print_philo(tab->ptr, tab->number, 1);
 		if (check_is_died(tab->ptr) != 0)
@@ -83,11 +83,11 @@ void	*odd_thread(t_tab_of_thread *tab)
 			break ;
 		}
 		eat_philo(tab);
-		print_philo(tab->ptr, tab->number, 4);
+		print_philo(tab->ptr, tab->number, 3);
 		if (check_is_died(tab->ptr) != 0)
 			break ;
 		usleep(tab->ptr->time_to_sleep * 1000);
-		print_philo(tab->ptr, tab->number, 5);
+		print_philo(tab->ptr, tab->number, 4);
 		if (check_is_died(tab->ptr) != 0)
 			break ;
 		usleep(tab->ptr->time_2e_sleep);
@@ -99,7 +99,7 @@ void	*last_odd_thread(t_tab_of_thread *tab)
 {
 	while (check_is_died(tab->ptr) == 0)
 	{
-		print_philo(tab->ptr, tab->number, 5);
+		print_philo(tab->ptr, tab->number, 4);
 		if (check_is_died(tab->ptr) != 0)
 			break ;
 		usleep(tab->ptr->time_to_eat * 1000);
@@ -108,7 +108,7 @@ void	*last_odd_thread(t_tab_of_thread *tab)
 		pthread_mutex_lock(tab->fork_right);
 		print_philo(tab->ptr, tab->number, 1);
 		pthread_mutex_lock(tab->fork_left);
-		print_philo(tab->ptr, tab->number, 2);
+		print_philo(tab->ptr, tab->number, 1);
 		if (check_is_died(tab->ptr) != 0)
 		{
 			pthread_mutex_unlock(tab->fork_right);
@@ -116,7 +116,7 @@ void	*last_odd_thread(t_tab_of_thread *tab)
 			break ;
 		}
 		eat_philo(tab);
-		print_philo(tab->ptr, tab->number, 4);
+		print_philo(tab->ptr, tab->number, 3);
 		if (check_is_died(tab->ptr) != 0)
 			break ;
 		usleep(tab->ptr->time_2e_sleep);
