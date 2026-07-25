@@ -6,7 +6,7 @@
 /*   By: fiaudfiz <fiaudfiz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 11:05:13 by miouali           #+#    #+#             */
-/*   Updated: 2026/05/05 17:50:57 by fiaudfiz         ###   ########.fr       */
+/*   Updated: 2026/07/25 19:30:28 by fiaudfiz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,5 +68,6 @@ int		init_mutex(t_global_struct *global);
 int		set_variables_tab(t_global_struct *global, t_tab_of_thread *tab);
 int		start_philos(t_global_struct *global);
 void	join_and_quit(t_global_struct *global);
+int		ft_atoi(const char *str);
 
 #endif
